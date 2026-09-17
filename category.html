@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Find verified Dentists and Dental Clinics in Kashmir. Compare ratings, addresses, consultation hours, and book appointment slots.">
+  <title>Dentists in Kashmir — Clinic Finder Kashmir</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+  <!-- Header / Navigation -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="brand-logo">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
+          </path>
+        </svg>
+        <span>Clinic Finder <span class="highlight">Kashmir</span></span>
+      </a>
+
+      <!-- Hamburger toggle -->
+      <input type="checkbox" id="nav-toggle" class="nav-toggle-checkbox">
+      <label for="nav-toggle" class="nav-toggle-label" aria-label="Toggle Navigation">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </label>
+
+      <nav class="nav-menu">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="category.html" class="nav-link active">Find Doctors</a>
+        <a href="index.html#categories" class="nav-link">Specialties</a>
+        <a href="index.html#how-it-works" class="nav-link">About</a>
+
+        <div class="nav-actions-mobile">
+          <a href="login.html" class="btn btn-outline btn-sm">Login</a>
+          <a href="register.html" class="btn btn-primary btn-sm">Register Clinic</a>
+        </div>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="login.html" class="btn btn-ghost btn-sm">Login</a>
+        <a href="register.html" class="btn btn-primary btn-sm">Doctor Registration</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Breadcrumbs -->
+    <nav class="breadcrumb" style="margin-top: 2rem;">
+      <a href="index.html">Home</a>
+      <span class="breadcrumb-separator">/</span>
+      <a href="index.html#categories">Specialties</a>
+      <span class="breadcrumb-separator">/</span>
+      <span style="color: var(--text-main); font-weight: 600;">Dentists</span>
+    </nav>
+
+    <div class="listing-layout">
+      <!-- Left Filter Sidebar (Pure CSS UI) -->
+      <aside class="filter-sidebar">
+        <div class="filter-header">
+          <h3>Filter Doctors</h3>
+          <a href="category.html" class="btn-sm btn-ghost" style="font-size: 0.75rem;">Reset All</a>
+        </div>
+
+        <!-- Filter: District -->
+        <div class="filter-group">
+          <h4 class="filter-title">District / Area</h4>
+          <label class="filter-option">
+            <input type="checkbox" checked>
+            <span>All Districts</span>
+            <span class="count">14</span>
+          </label>
+          <label class="filter-option">
+            <input type="checkbox">
+            <span>Srinagar</span>
+            <span class="count">7</span>
+          </label>
+          <label class="filter-option">
+            <input type="checkbox">
+            <span>Anantnag</span>
+            <span class="count">3</span>
+          </label>
+          <label class="filter-option">
+            <input type="checkbox">
+            <span>Baramulla & Sopore</span>
+            <span class="count">2</span>
+          </label>
+          <label class="filter-option">
+            <input type="checkbox">
+            <span>Pulwama</span>
+            <span class="count">2</span>
+          </label>
+        </div>
+
+        <!-- Filter: Availability -->
+        <div class="filter-group">
+          <h4 class="filter-title">Availability</h4>
+          <label class="filter-option">
+            <input type="checkbox">
+            <span>Available Today</span>
+            <span class="count">6</span>
+          </label>
+          <label class="filter-option">
+            <input type="checkbox">
+            <span>Available Tomorrow</span>
+            <span class="count">9</span>
+          </label>
+          <label class="filter-option">
+            <input type="checkbox">
+            <span>Weekend Consultation</span>
+            <span class="count">5</span>
+          </label>
+        </div>
+
+        <!-- Filter: Sub-Specialization -->
+        <div class="filter-group">
+          <h4 class="filter-title">Dental Procedures</h4>
+          <label class="filter-option">
+            <input type="checkbox">
+            <span>Orthodontics (Braces)</span>
+            <span class="count">5</span>
+          </label>
+          <label class="filter-option">
+            <input type="checkbox">
+            <span>Root Canal (Endodontics)</span>
+            <span class="count">8</span>
+          </label>
+          <label class="filter-option">
+            <input type="checkbox">
+            <span>Dental Implants</span>
+            <span class="count">4</span>
+          </label>
+          <label class="filter-option">
+            <input type="checkbox">
+            <span>Pediatric Dentistry</span>
+            <span class="count">3</span>
+          </label>
+        </div>
+
+        <!-- Filter: Fee Range -->
+        <div class="filter-group">
+          <h4 class="filter-title">Consultation Fee</h4>
+          <label class="filter-option">
+            <input type="radio" name="fee-filter" checked>
+            <span>Any Fee</span>
+          </label>
+          <label class="filter-option">
+            <input type="radio" name="fee-filter">
+            <span>Under ₹300</span>
+          </label>
+          <label class="filter-option">
+            <input type="radio" name="fee-filter">
+            <span>₹300 – ₹600</span>
+          </label>
+          <label class="filter-option">
+            <input type="radio" name="fee-filter">
+            <span>₹600+</span>
+          </label>
+        </div>
+      </aside>
+
+      <!-- Main Doctor Listing Stream -->
+      <section class="listing-main">
+        <div
+          style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <h1 style="font-size: 1.75rem; font-weight: 800; color: var(--text-main);">Dentists in Kashmir</h1>
+            <p style="font-size: 0.875rem; color: var(--text-muted);">14 Verified Dental Clinics and Specialists
+              available for appointments</p>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <span style="font-size: 0.875rem; color: var(--text-muted);">Sort by:</span>
+            <select class="form-control" style="width: auto; padding: 0.4rem 0.8rem; font-size: 0.875rem;"
+              aria-label="Sort options">
+              <option>Highest Rated</option>
+              <option>Most Experienced</option>
+              <option>Earliest Available Slot</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+          <!-- Doctor Card 1 -->
+          <article class="doctor-card">
+            <div class="doctor-card-header">
+              <div class="doctor-avatar-wrap">
+                <div class="doctor-avatar-placeholder"
+                  style="background: linear-gradient(135deg, #e0f2fe, #bae6fd); color: #0369a1;">TL</div>
+                <span class="verified-badge" title="Verified Doctor">
+                  <svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                </span>
+              </div>
+              <div class="doctor-basic-info">
+                <div class="doctor-specialty">Orthodontist & Dental Surgeon</div>
+                <h2 class="doctor-name">Dr. Tariq Lone</h2>
+                <p style="font-size: 0.8125rem; color: var(--text-muted); margin-bottom: 0.35rem;">BDS, MDS
+                  (Orthodontics) — 12+ Years Experience</p>
+                <div class="doctor-rating">
+                  <svg viewBox="0 0 20 20">
+                    <path
+                      d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                    </path>
+                  </svg>
+                  <span>4.9</span>
+                  <span class="rating-count">(95 verified patient reviews)</span>
+                </div>
+              </div>
+              <div style="text-align: right;">
+                <div style="font-size: 1.25rem; font-weight: 800; color: var(--text-main);">₹400</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted);">Consultation fee</div>
+              </div>
+            </div>
+
+            <div class="doctor-card-body">
+              <div class="doctor-clinic-item">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
+                  </path>
+                </svg>
+                <span><strong>Kashmir Smile Dental Spa</strong> — KP Road, Anantnag (Opposite State Bank)</span>
+              </div>
+              <p class="doctor-bio-snippet">
+                Specialized in invisible aligners, dental veneers, digital smile design, and painless root canal
+                treatments with state-of-the-art sterilisation and equipment.
+              </p>
+            </div>
+
+            <div class="doctor-card-footer">
+              <span class="availability-pill">
+                <span class="status-dot status-available"></span>
+                <span>Next slot: Today, 04:30 PM</span>
+              </span>
+              <div style="display: flex; gap: 0.5rem;">
+                <a href="doctor-profile.html" class="btn btn-primary btn-sm">Book Appointment</a>
+                <a href="doctor-profile.html" class="btn btn-outline btn-sm">View Profile</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Doctor Card 2 -->
+          <article class="doctor-card">
+            <div class="doctor-card-header">
+              <div class="doctor-avatar-wrap">
+                <div class="doctor-avatar-placeholder"
+                  style="background: linear-gradient(135deg, #d1fae5, #a7f3d0); color: #065f46;">SA</div>
+                <span class="verified-badge" title="Verified Doctor">
+                  <svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                </span>
+              </div>
+              <div class="doctor-basic-info">
+                <div class="doctor-specialty">Endodontist (Root Canal Specialist)</div>
+                <h2 class="doctor-name">Dr. Sajad Ahmad</h2>
+                <p style="font-size: 0.8125rem; color: var(--text-muted); margin-bottom: 0.35rem;">BDS, MDS
+                  (Conservative Dentistry) — 9+ Years Experience</p>
+                <div class="doctor-rating">
+                  <svg viewBox="0 0 20 20">
+                    <path
+                      d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                    </path>
+                  </svg>
+                  <span>4.8</span>
+                  <span class="rating-count">(71 verified patient reviews)</span>
+                </div>
+              </div>
+              <div style="text-align: right;">
+                <div style="font-size: 1.25rem; font-weight: 800; color: var(--text-main);">₹500</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted);">Consultation fee</div>
+              </div>
+            </div>
+
+            <div class="doctor-card-body">
+              <div class="doctor-clinic-item">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
+                  </path>
+                </svg>
+                <span><strong>Crown & Root Dental Care</strong> — Karan Nagar, Srinagar (Near SMHS Gate 2)</span>
+              </div>
+              <p class="doctor-bio-snippet">
+                Microscope-assisted root canal treatments, porcelain crowns, restorative fillings, and emergency
+                toothache relief.
+              </p>
+            </div>
+
+            <div class="doctor-card-footer">
+              <span class="availability-pill">
+                <span class="status-dot status-available"></span>
+                <span>Next slot: Tomorrow, 11:00 AM</span>
+              </span>
+              <div style="display: flex; gap: 0.5rem;">
+                <a href="doctor-profile.html" class="btn btn-primary btn-sm">Book Appointment</a>
+                <a href="doctor-profile.html" class="btn btn-outline btn-sm">View Profile</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Doctor Card 3 -->
+          <article class="doctor-card">
+            <div class="doctor-card-header">
+              <div class="doctor-avatar-wrap">
+                <div class="doctor-avatar-placeholder"
+                  style="background: linear-gradient(135deg, #fce7f3, #fbcfe8); color: #9d174d;">NM</div>
+                <span class="verified-badge" title="Verified Doctor">
+                  <svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                </span>
+              </div>
+              <div class="doctor-basic-info">
+                <div class="doctor-specialty">Pediatric Dentist & Implantologist</div>
+                <h2 class="doctor-name">Dr. Nida Mushtaq</h2>
+                <p style="font-size: 0.8125rem; color: var(--text-muted); margin-bottom: 0.35rem;">BDS, Fellowship in
+                  Pediatric Dentistry — 8+ Years Experience</p>
+                <div class="doctor-rating">
+                  <svg viewBox="0 0 20 20">
+                    <path
+                      d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                    </path>
+                  </svg>
+                  <span>4.9</span>
+                  <span class="rating-count">(48 verified patient reviews)</span>
+                </div>
+              </div>
+              <div style="text-align: right;">
+                <div style="font-size: 1.25rem; font-weight: 800; color: var(--text-main);">₹350</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted);">Consultation fee</div>
+              </div>
+            </div>
+
+            <div class="doctor-card-body">
+              <div class="doctor-clinic-item">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
+                  </path>
+                </svg>
+                <span><strong>Apple Town Family Dental</strong> — Main Market, Sopore, Baramulla</span>
+              </div>
+              <p class="doctor-bio-snippet">
+                Warm and gentle dental care specifically suited for children and nervous patients. Full digital
+                scanning, cavity prevention, and smile makeovers.
+              </p>
+            </div>
+
+            <div class="doctor-card-footer">
+              <span class="availability-pill">
+                <span class="status-dot status-available"></span>
+                <span>Next slot: Today, 05:00 PM</span>
+              </span>
+              <div style="display: flex; gap: 0.5rem;">
+                <a href="doctor-profile.html" class="btn btn-primary btn-sm">Book Appointment</a>
+                <a href="doctor-profile.html" class="btn btn-outline btn-sm">View Profile</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
+              </path>
+            </svg>
+            Clinic Finder Kashmir
+          </h3>
+          <p>
+            Bridging the digital gap for private healthcare in Jammu & Kashmir. Helping patients locate trusted local
+            doctors, private clinics, and consult timings effortlessly.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="footer-heading">Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="category.html">All Doctor Categories</a></li>
+            <li><a href="register.html">Doctor Registration</a></li>
+            <li><a href="login.html">Patient & Doctor Login</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-heading">Specialties</h4>
+          <ul class="footer-links">
+            <li><a href="category.html">Dentists</a></li>
+            <li><a href="category.html">Cardiologists</a></li>
+            <li><a href="category.html">Dermatologists</a></li>
+            <li><a href="category.html">Pediatricians</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-heading">Support</h4>
+          <p style="font-size: 0.875rem; color: #94a3b8; margin-bottom: 0.75rem;">
+            Are you a clinic owner wanting to update your hours?
+          </p>
+          <a href="register.html" class="btn btn-outline btn-sm"
+            style="color: #ffffff !important; border-color: #334155; background-color: #1e293b;">Clinic Dashboard</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 Clinic Finder Kashmir. All rights reserved.</div>
+        <div>
+          <a href="#" style="color: #64748b; margin-right: 1.25rem;">Privacy Policy</a>
+          <a href="#" style="color: #64748b;">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Find trusted private clinics and specialist doctors across Kashmir. Book appointments, check working hours, and discover local clinics easily.">
+  <title>Sehat Go — Find Trusted Doctors & Private Clinics</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+  <!-- Header / Navigation Bar -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="brand-logo">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
+          </path>
+        </svg>
+        <span>Sehat <span class="highlight">Go</span></span>
+      </a>
+
+      <!-- Pure CSS Hamburger Toggle for Mobile -->
+      <input type="checkbox" id="nav-toggle" class="nav-toggle-checkbox">
+      <label for="nav-toggle" class="nav-toggle-label" aria-label="Toggle Navigation">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </label>
+
+      <nav class="nav-menu">
+        <a href="index.html" class="nav-link active">Home</a>
+        <a href="category.html" class="nav-link">Find Doctors</a>
+        <a href="#categories" class="nav-link">Specialties</a>
+        <a href="#how-it-works" class="nav-link">About</a>
+
+        <div class="nav-actions-mobile">
+          <a href="login.html" class="btn btn-outline btn-sm">Login</a>
+          <a href="register.html" class="btn btn-primary btn-sm">Register Clinic</a>
+        </div>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="login.html" class="btn btn-ghost btn-sm">Login</a>
+        <a href="register.html" class="btn btn-primary btn-sm">Doctor Registration</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero & Search Section -->
+    <section class="hero-section">
+      <div class="container hero-content">
+        <div class="hero-badge">
+          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+            <path
+              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+          </svg>
+          Connecting Patients & Private Clinics Across the Valley
+        </div>
+
+        <h1 class="hero-title">
+          Find Trusted Doctors & <span>Private Clinics</span> in Kashmir
+        </h1>
+
+        <p class="hero-description">
+          Discover certified specialists, transparent clinic timings, and convenient appointment slots in Srinagar,
+          Pulwama, Anantnag, and beyond.
+        </p>
+
+        <!-- Search Bar Component (Visual Mockup) -->
+        <div class="search-wrapper">
+          <form class="search-form" action="category.html" method="get">
+            <div class="search-field">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z">
+                </path>
+              </svg>
+              <input type="text" placeholder="Search doctor, clinic name, or specialty..." aria-label="Search term">
+            </div>
+
+            <div class="search-field">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+              </svg>
+              <select aria-label="Select District">
+                <option value="">All Kashmir Districts</option>
+                <option value="srinagar">Srinagar (City Center, Karan Nagar, Rajbagh)</option>
+                <option value="anantnag">Anantnag (KP Road, Janglat Mandi)</option>
+                <option value="baramulla">Baramulla & Sopore</option>
+                <option value="pulwama">Pulwama</option>
+                <option value="budgam">Budgam</option>
+                <option value="kupwara">Kupwara</option>
+              </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg">
+              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z">
+                </path>
+              </svg>
+              Search
+            </button>
+          </form>
+        </div>
+
+        <div class="popular-tags">
+          <span class="label">Popular searches:</span>
+          <a href="category.html" class="tag-pill">Dentist</a>
+          <a href="category.html" class="tag-pill">Cardiologist</a>
+          <a href="category.html" class="tag-pill">Dermatologist</a>
+          <a href="category.html" class="tag-pill">Karan Nagar Clinics</a>
+          <a href="category.html" class="tag-pill">Pediatrician</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Doctor Categories Section -->
+    <section class="section" id="categories">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Explore Specialties</span>
+          <h2 class="section-title">Browse Doctors by Category</h2>
+          <p class="section-subtitle">Find dedicated medical specialists in private clinics across Jammu & Kashmir.</p>
+        </div>
+
+        <div class="category-grid">
+          <!-- 1. Dentist -->
+          <a href="category.html" class="category-card">
+            <div class="category-icon">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+            <h3 class="category-name">Dentist</h3>
+            <span class="category-count">0 Clinics Available</span>
+          </a>
+
+          <!-- 2. Cardiologist -->
+          <a href="category.html" class="category-card">
+            <div class="category-icon">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z">
+                </path>
+              </svg>
+            </div>
+            <h3 class="category-name">Cardiologist</h3>
+            <span class="category-count">0 Clinics Available</span>
+          </a>
+
+          <!-- 3. Dermatologist -->
+          <a href="category.html" class="category-card">
+            <div class="category-icon">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4">
+                </path>
+              </svg>
+            </div>
+            <h3 class="category-name">Dermatologist</h3>
+            <span class="category-count">0 Clinics Available</span>
+          </a>
+
+          <!-- 4. Pediatrician -->
+          <a href="category.html" class="category-card">
+            <div class="category-icon">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z">
+                </path>
+              </svg>
+            </div>
+            <h3 class="category-name">Pediatrician</h3>
+            <span class="category-count">0 Clinics Available</span>
+          </a>
+
+          <!-- 5. Orthopedic -->
+          <a href="category.html" class="category-card">
+            <div class="category-icon">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+              </svg>
+            </div>
+            <h3 class="category-name">Orthopedic</h3>
+            <span class="category-count">0 Clinics Available</span>
+          </a>
+
+          <!-- 6. General Physician -->
+          <a href="category.html" class="category-card">
+            <div class="category-icon">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                </path>
+              </svg>
+            </div>
+            <h3 class="category-name">General Physician</h3>
+            <span class="category-count">0 Clinics Available</span>
+          </a>
+
+          <!-- 7. ENT Specialist -->
+          <a href="category.html" class="category-card">
+            <div class="category-icon">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z">
+                </path>
+              </svg>
+            </div>
+            <h3 class="category-name">ENT Specialist</h3>
+            <span class="category-count">0 Clinics Available</span>
+          </a>
+
+          <!-- 8. Neurologist -->
+          <a href="category.html" class="category-card">
+            <div class="category-icon">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z">
+                </path>
+              </svg>
+            </div>
+            <h3 class="category-name">Neurologist</h3>
+            <span class="category-count">0 Clinics Available</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Doctors Section -->
+    <section class="section section-subtle">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Verified Practitioners</span>
+          <h2 class="section-title">Featured Doctors in Kashmir</h2>
+          <p class="section-subtitle">Highly rated private doctors offering consultations with transparent timing.</p>
+        </div>
+
+        <div class="doctor-grid">
+          <!-- Doctor 1 -->
+          <article class="doctor-card">
+            <div class="doctor-card-header">
+              <div class="doctor-avatar-wrap">
+                <div class="doctor-avatar-placeholder">AQ</div>
+                <span class="verified-badge" title="Verified Practitioner">
+                  <svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                </span>
+              </div>
+              <div class="doctor-basic-info">
+                <div class="doctor-specialty">Cardiologist</div>
+                <h3 class="doctor-name">Dr. Aamir Qadir</h3>
+                <div class="doctor-rating">
+                  <svg viewBox="0 0 20 20">
+                    <path
+                      d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                    </path>
+                  </svg>
+                  <span>4.9</span>
+                  <span class="rating-count">(84 reviews)</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="doctor-card-body">
+              <div class="doctor-clinic-item">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
+                  </path>
+                </svg>
+                <span><strong>Valley Heart Care Clinic</strong></span>
+              </div>
+              <div class="doctor-clinic-item">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+                <span>Karan Nagar, Srinagar (Near SMHS)</span>
+              </div>
+              <p class="doctor-bio-snippet">
+                DM Cardiology, MBBS. Over 14 years of experience treating coronary artery disease, hypertension, and
+                preventative heart care in Srinagar.
+              </p>
+            </div>
+
+            <div class="doctor-card-footer">
+              <span class="availability-pill">
+                <span class="status-dot status-available"></span>
+                <span>Mon – Sat (4:00 PM - 8:00 PM)</span>
+              </span>
+              <a href="doctor-profile.html" class="btn btn-outline btn-sm">View Profile</a>
+            </div>
+          </article>
+
+          <!-- Doctor 2 -->
+          <article class="doctor-card">
+            <div class="doctor-card-header">
+              <div class="doctor-avatar-wrap">
+                <div class="doctor-avatar-placeholder"
+                  style="background: linear-gradient(135deg, #fef3c7, #fde68a); color: #92400e;">ZS</div>
+                <span class="verified-badge" title="Verified Practitioner">
+                  <svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                </span>
+              </div>
+              <div class="doctor-basic-info">
+                <div class="doctor-specialty">Dermatologist</div>
+                <h3 class="doctor-name">Dr. Zoya Mir</h3>
+                <div class="doctor-rating">
+                  <svg viewBox="0 0 20 20">
+                    <path
+                      d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                    </path>
+                  </svg>
+                  <span>4.8</span>
+                  <span class="rating-count">(62 reviews)</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="doctor-card-body">
+              <div class="doctor-clinic-item">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
+                  </path>
+                </svg>
+                <span><strong>DermaGlow Skin Clinic</strong></span>
+              </div>
+              <div class="doctor-clinic-item">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+                <span>Rajbagh, Srinagar (Near Hurriyat Office)</span>
+              </div>
+              <p class="doctor-bio-snippet">
+                MD Dermatology. Specialist in acne treatment, cosmetic dermatology, cold-weather eczema, and clinical
+                hair restoration treatments.
+              </p>
+            </div>
+
+            <div class="doctor-card-footer">
+              <span class="availability-pill">
+                <span class="status-dot status-available"></span>
+                <span>Tue – Sun (11:00 AM - 5:00 PM)</span>
+              </span>
+              <a href="doctor-profile.html" class="btn btn-outline btn-sm">View Profile</a>
+            </div>
+          </article>
+
+          <!-- Doctor 3 -->
+          <article class="doctor-card">
+            <div class="doctor-card-header">
+              <div class="doctor-avatar-wrap">
+                <div class="doctor-avatar-placeholder"
+                  style="background: linear-gradient(135deg, #e0f2fe, #bae6fd); color: #0369a1;">TL</div>
+                <span class="verified-badge" title="Verified Practitioner">
+                  <svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                </span>
+              </div>
+              <div class="doctor-basic-info">
+                <div class="doctor-specialty">Dentist</div>
+                <h3 class="doctor-name">Dr. Tariq Lone</h3>
+                <div class="doctor-rating">
+                  <svg viewBox="0 0 20 20">
+                    <path
+                      d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                    </path>
+                  </svg>
+                  <span>4.9</span>
+                  <span class="rating-count">(95 reviews)</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="doctor-card-body">
+              <div class="doctor-clinic-item">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
+                  </path>
+                </svg>
+                <span><strong>Kashmir Smile Dental Spa</strong></span>
+              </div>
+              <div class="doctor-clinic-item">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+                <span>KP Road, Anantnag (Near Main Bus Stand)</span>
+              </div>
+              <p class="doctor-bio-snippet">
+                MDS Orthodontics, BDS. Pioneer in modern painless root canals, dental implants, teeth alignment, and
+                pediatric dental hygiene in South Kashmir.
+              </p>
+            </div>
+
+            <div class="doctor-card-footer">
+              <span class="availability-pill">
+                <span class="status-dot status-available"></span>
+                <span>Mon – Fri (10:00 AM - 6:00 PM)</span>
+              </span>
+              <a href="doctor-profile.html" class="btn btn-outline btn-sm">View Profile</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Clinic Finder Kashmir / How It Works Section -->
+    <section class="section" id="how-it-works">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">How It Works</span>
+          <h2 class="section-title">Healthcare Made Accessible in Kashmir</h2>
+          <p class="section-subtitle">No more relying on word-of-mouth or showing up to closed clinics in harsh weather.
+          </p>
+        </div>
+
+        <div class="features-grid">
+          <div class="feature-box">
+            <div class="feature-number">1</div>
+            <h3>Discover Private Clinics</h3>
+            <p>Search doctors across all 10 districts of the Valley. View verified credentials, specializations, and
+              exact clinic locations.</p>
+          </div>
+
+          <div class="feature-box">
+            <div class="feature-number">2</div>
+            <h3>Check Live Timings & Slots</h3>
+            <p>Private practice timings often shift with seasons. Check verified opening hours and available appointment
+              slots before traveling.</p>
+          </div>
+
+          <div class="feature-box">
+            <div class="feature-number">3</div>
+            <h3>Skip The Cold Queues</h3>
+            <p>Book your preferred consultation slot ahead of time. Arrive right on time without enduring long waiting
+              hours in crowded waiting rooms.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section for Doctors -->
+    <section class="section" style="padding-top: 0;">
+      <div class="container">
+        <div class="cta-banner">
+          <div class="cta-content">
+            <h2>Are You a Doctor or Clinic Owner in Kashmir?</h2>
+            <p>Give your private clinic an online presence. Reach thousands of patients seeking trusted care in your
+              district.</p>
+          </div>
+          <div>
+            <a href="register.html" class="btn btn-primary btn-lg"
+              style="background-color: #ffffff; color: var(--primary-darker) !important; font-weight: 700;">
+              Register Your Clinic Free
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
+              </path>
+            </svg>
+            Sehat Go
+          </h3>
+          <p>
+            Bridging the digital gap for private healthcare in Jammu & Kashmir. Helping patients locate trusted local
+            doctors, private clinics, and consult timings effortlessly.
+          </p>
+          <p style="font-size: 0.8125rem; color: #64748b;">
+            Direct Support: <a href="mailto:support@clinicfinderkashmir.com"
+              style="color: #cbd5e1;">support@sehatgokashmir.com</a>
+          </p>
+        </div>
+
+        <div>
+          <h4 class="footer-heading">Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="category.html">All Doctor Categories</a></li>
+            <li><a href="register.html">Doctor Registration</a></li>
+            <li><a href="login.html">Patient & Doctor Login</a></li>
+            <li><a href="#how-it-works">How It Works</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-heading">Specialties</h4>
+          <ul class="footer-links">
+            <li><a href="category.html">Dentists</a></li>
+            <li><a href="category.html">Cardiologists</a></li>
+            <li><a href="category.html">Dermatologists</a></li>
+            <li><a href="category.html">Pediatricians</a></li>
+            <li><a href="category.html">Orthopedics</a></li>
+            <li><a href="category.html">General Physicians</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-heading">Districts Covered</h4>
+          <div class="district-tags">
+            <a href="category.html" class="district-tag">Srinagar</a>
+            <a href="category.html" class="district-tag">Anantnag</a>
+            <a href="category.html" class="district-tag">Baramulla</a>
+            <a href="category.html" class="district-tag">Sopore</a>
+            <a href="category.html" class="district-tag">Pulwama</a>
+            <a href="category.html" class="district-tag">Budgam</a>
+            <a href="category.html" class="district-tag">Ganderbal</a>
+            <a href="category.html" class="district-tag">Kupwara</a>
+            <a href="category.html" class="district-tag">Kulgam</a>
+            <a href="category.html" class="district-tag">Shopian</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>
+          &copy; 2026 Sehat Go. All rights reserved.
+        </div>
+        <div>
+          <a href="#" style="color: #64748b; margin-right: 1.25rem;">Privacy Policy</a>
+          <a href="#" style="color: #64748b; margin-right: 1.25rem;">Terms of Service</a>
+          <a href="#" style="color: #64748b;">Emergency Helpline</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script src="main.js"></script>
+</body>
+
+</html>
