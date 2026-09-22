@@ -13,6 +13,10 @@ const searchInput = document.querySelector(".search-form input");
 
 const districtSelect = document.querySelector(".search-form select");
 
+const searchWrapper = document.querySelector(".search-wrapper");
+
+const searchDropdown = document.querySelector(".search-dropdown");
+
 brandLogo.addEventListener("click", function (event) {
   event.preventDefault();
   console.log("Brand Logo was clicked");
@@ -47,8 +51,38 @@ searchForm.addEventListener("submit", function (event) {
     searchInput.parentElement.classList.add("error");
     searchInput.focus();
   } else {
-    console.log(searchQuery);
-    console.log(district);
+    const filteredDoctors = doctors.filter(function (doctor) {
+      const matchesSpecialty = doctor.specialty
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase());
+      const matchesDistrict =
+        district === "" || doctor.district.toLowerCase() === district.toLowerCase();
+      return matchesSpecialty && matchesDistrict;
+  
+    });
+    searchDropdown.classList.add("show");
+    if (filteredDoctors.length === 0) {
+      searchDropdown.innerHTML = "No Clinics Found";
+    } else {
+      searchDropdown.innerHTML = "";
+      filteredDoctors.forEach(function (doctor) {
+        searchDropdown.innerHTML += `
+  <div style="padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+    <div>
+      <h4 style="margin: 0; font-size: 1rem; font-weight: 600;">${doctor.name}</h4>
+      <p style="margin: 0.25rem 0 0 0; font-size: 0.85rem; color: var(--text-muted);">${doctor.specialty} • ${doctor.clinic} (${doctor.district})</p>
+    </div>
+    <span style="font-weight: 600; color: var(--accent);">⭐ ${doctor.rating}</span>
+  </div>
+`;
+      });
+    }
+  }
+});
+
+document.addEventListener("click", function (event) {
+  if (!searchWrapper.contains(event.target)) {
+    searchDropdown.classList.remove("show");
   }
 });
 
