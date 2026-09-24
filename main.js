@@ -142,6 +142,9 @@ if (doctors.length === 0) {
         <div class="doctor-card-body">
           <p>${doctor.clinic} — ${doctor.district}</p>
         </div>
+        <div class="doctor-card-footer">
+   <a href = "doctor-profile.html?id=${doctor.id}" class="btn btn-outline btn-sm">View Profile</a>
+        </div>
       </article>
     `;
   });

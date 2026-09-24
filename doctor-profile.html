@@ -5,8 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description"
-    content="View Dr. Tariq Lone's profile, qualifications, clinic timings, fees, patient reviews, and book an appointment slot at Kashmir Smile Dental Spa, Anantnag.">
-  <title>Dr. Tariq Lone — Orthodontist & Dental Surgeon | Clinic Finder Kashmir</title>
+    content="View verified doctor profiles, clinic timings, consultation fees, and book appointment slots across Kashmir on Sehat Go.">
+  <title>Doctor Profile | Sehat Go</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -21,7 +21,7 @@
             d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
           </path>
         </svg>
-        <span>Clinic Finder <span class="highlight">Kashmir</span></span>
+        <span>Sehat <span class="highlight">Go</span></span>
       </a>
 
       <!-- Hamburger toggle -->
@@ -58,13 +58,13 @@
       <nav class="breadcrumb">
         <a href="index.html">Home</a>
         <span class="breadcrumb-separator">/</span>
-        <a href="category.html">Dentists</a>
+        <a href="category.html">Find Doctors</a>
         <span class="breadcrumb-separator">/</span>
-        <span style="color: var(--text-main); font-weight: 600;">Dr. Tariq Lone</span>
+        <span id="breadcrumb-doctor" style="color: var(--text-main); font-weight: 600;">Doctor Profile</span>
       </nav>
 
       <div class="profile-header-card">
-        <div class="profile-avatar-large">TL</div>
+        <div id="doctor-avatar" class="profile-avatar-large">--</div>
         <div class="profile-meta-header">
           <div class="profile-badges">
             <span class="badge badge-primary">
@@ -73,29 +73,21 @@
               </svg>
               Verified Medical Council Registration
             </span>
-            <span class="badge badge-success">Accepting New Patients</span>
-            <span class="badge badge-warning">Top Rated 2026</span>
+            <span class="badge badge-success">Accepting Appointments</span>
           </div>
 
-          <h1 class="profile-name">Dr. Tariq Lone</h1>
-          <p class="profile-qualifications">BDS, MDS (Orthodontics & Dentofacial Orthopedics) &bull; Reg No:
-            JK-DEN-44281</p>
+          <h1 id="doctor-name" class="profile-name">Loading Doctor...</h1>
+          <p id="doctor-specialty" class="profile-qualifications">Specialist</p>
 
           <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
-            <div class="doctor-rating">
-              <svg viewBox="0 0 20 20">
-                <path
-                  d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
-                </path>
-              </svg>
-              <span style="font-size: 1.125rem;">4.9</span>
-              <span class="rating-count">(95 verified patient ratings)</span>
+            <div id="doctor-rating-container" class="doctor-rating">
+              <span id="doctor-rating" style="font-weight: 600; color: var(--accent);">⭐ Newly Registered</span>
             </div>
             <div style="font-size: 0.875rem; color: var(--text-muted);">
-              <strong>12+ Years</strong> Clinical Practice
+              📍 <strong id="doctor-clinic">Clinic Name</strong> (<span id="doctor-district">District</span>)
             </div>
             <div style="font-size: 0.875rem; color: var(--text-muted);">
-              <strong>Kashmir Smile Dental Spa</strong> (Chief Consultant)
+              💰 <strong id="hero-fee">₹--</strong> Consultation Fee
             </div>
           </div>
         </div>
@@ -103,34 +95,13 @@
     </div>
   </section>
 
-  <!-- Profile Details & Static Booking Widget Layout -->
+  <!-- Profile Details & Booking Layout -->
   <main class="container">
     <div class="profile-grid-layout">
 
-      <!-- Left Column: Biography, Clinic Details, Timings, Reviews -->
+      <!-- Left Column: Biography, Clinic Details, Reviews -->
       <div>
-        <!-- Section: About & Bio -->
-        <article class="profile-card">
-          <h2 class="profile-card-title">
-            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round"
-                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-            </svg>
-            About Dr. Tariq Lone
-          </h2>
-          <p style="margin-bottom: 1rem; color: var(--text-body); line-height: 1.7;">
-            Dr. Tariq Lone is a senior Orthodontist and Dental Surgeon based in Anantnag with over 12 years of
-            specialized clinical experience. After graduating with honors in Dental Surgery, he completed his Master of
-            Dental Surgery (MDS) in Orthodontics and Dentofacial Orthopedics.
-          </p>
-          <p style="color: var(--text-body); line-height: 1.7;">
-            His private clinic, <strong>Kashmir Smile Dental Spa</strong>, was established to bring modern painless
-            dental procedures to South Kashmir. He specializes in clear aligners, complex root canal therapy under
-            magnification, pediatric preventative dentistry, and full-mouth rehabilitation.
-          </p>
-        </article>
-
-        <!-- Section: Clinic Information & Contact Details -->
+        <!-- Section: About Doctor & Clinic -->
         <article class="profile-card">
           <h2 class="profile-card-title">
             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -138,8 +109,11 @@
                 d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
               </path>
             </svg>
-            Clinic Details & Location
+            About Clinic & Doctor
           </h2>
+          <p id="doctor-bio" style="color: var(--text-body); line-height: 1.7; margin-bottom: 1.25rem;">
+            Verified private medical practitioner in Jammu & Kashmir. Providing dedicated patient consultations and healthcare services.
+          </p>
 
           <div class="clinic-info-list">
             <div class="clinic-info-row">
@@ -151,10 +125,8 @@
                 </svg>
               </div>
               <div class="clinic-info-detail">
-                <h4>Clinic Name & Address</h4>
-                <p>Kashmir Smile Dental Spa, 2nd Floor, Al-Noor Complex, KP Road, Anantnag, Kashmir - 192101</p>
-                <span style="font-size: 0.8125rem; color: var(--text-muted);">Landmark: Opposite State Bank of India
-                  Main Branch</span>
+                <h4>Clinic & Area</h4>
+                <p id="clinic-address">Clinic Location</p>
               </div>
             </div>
 
@@ -162,91 +134,18 @@
               <div class="clinic-info-icon">
                 <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z">
-                  </path>
+                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
               </div>
               <div class="clinic-info-detail">
-                <h4>Clinic Phone / WhatsApp Desk</h4>
-                <p>+91 94190 XXXXX / 01932 22XXXX</p>
-              </div>
-            </div>
-
-            <div class="clinic-info-row">
-              <div class="clinic-info-icon">
-                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
-                  </path>
-                </svg>
-              </div>
-              <div class="clinic-info-detail">
-                <h4>Official Email</h4>
-                <p>kashmirsmiledental@gmail.com</p>
+                <h4>Consultation Timings</h4>
+                <p id="clinic-timings">Standard Clinic Timings: 10:00 AM – 06:00 PM</p>
               </div>
             </div>
           </div>
         </article>
 
-        <!-- Section: Working Hours & Availability Schedule -->
-        <article class="profile-card">
-          <h2 class="profile-card-title">
-            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z">
-              </path>
-            </svg>
-            Working Days & Consultation Hours
-          </h2>
-
-          <table class="schedule-table">
-            <thead>
-              <tr>
-                <th>Day</th>
-                <th>Status</th>
-                <th>Clinic Timings</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>Monday</strong></td>
-                <td><span class="badge badge-success">Open</span></td>
-                <td>10:00 AM – 06:00 PM</td>
-              </tr>
-              <tr>
-                <td><strong>Tuesday</strong></td>
-                <td><span class="badge badge-success">Open</span></td>
-                <td>10:00 AM – 06:00 PM</td>
-              </tr>
-              <tr>
-                <td><strong>Wednesday</strong></td>
-                <td><span class="badge badge-success">Open</span></td>
-                <td>10:00 AM – 06:00 PM</td>
-              </tr>
-              <tr>
-                <td><strong>Thursday</strong></td>
-                <td><span class="badge badge-success">Open</span></td>
-                <td>10:00 AM – 06:00 PM</td>
-              </tr>
-              <tr>
-                <td><strong>Friday</strong></td>
-                <td><span class="badge badge-warning">Prayer Break</span></td>
-                <td>10:00 AM – 12:30 PM &bull; 02:30 PM – 06:00 PM</td>
-              </tr>
-              <tr>
-                <td><strong>Saturday</strong></td>
-                <td><span class="badge badge-success">Open</span></td>
-                <td>10:00 AM – 04:00 PM</td>
-              </tr>
-              <tr>
-                <td><strong>Sunday</strong></td>
-                <td><span class="badge badge-danger">Closed</span></td>
-                <td>Unavailable / Weekly Off</td>
-              </tr>
-            </tbody>
-          </table>
-        </article>
-
-        <!-- Section: Patient Reviews (Static UI) -->
+        <!-- Section: Patient Reviews (Clean Dynamic Container) -->
         <article class="profile-card">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
             <h2 class="profile-card-title" style="margin-bottom: 0; padding-bottom: 0; border: none;">
@@ -257,110 +156,45 @@
               </svg>
               Patient Testimonials & Reviews
             </h2>
-            <span class="badge badge-neutral">95 Reviews</span>
+            <span id="reviews-count-badge" class="badge badge-neutral">0 Reviews</span>
           </div>
 
-          <div style="display: flex; flex-direction: column; gap: 1rem;">
-            <!-- Review 1 -->
-            <div style="padding: 1rem; background-color: var(--bg-subtle); border-radius: var(--radius-md);">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                <strong>Bilal Ahmad Wani</strong>
-                <span style="font-size: 0.75rem; color: var(--text-muted);">September 2026</span>
-              </div>
-              <div class="doctor-rating" style="margin-bottom: 0.5rem;">
-                <svg viewBox="0 0 20 20">
-                  <path
-                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
-                  </path>
-                </svg>
-                <span>5.0</span>
-              </div>
-              <p style="font-size: 0.875rem; color: var(--text-body);">
-                "Had severe toothache and got a root canal done. Dr. Tariq was very patient and explained every step.
-                The clinic in KP Road is exceptionally clean."
-              </p>
-            </div>
-
-            <!-- Review 2 -->
-            <div style="padding: 1rem; background-color: var(--bg-subtle); border-radius: var(--radius-md);">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                <strong>Shabnum Akhtar</strong>
-                <span style="font-size: 0.75rem; color: var(--text-muted);">August 2026</span>
-              </div>
-              <div class="doctor-rating" style="margin-bottom: 0.5rem;">
-                <svg viewBox="0 0 20 20">
-                  <path
-                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
-                  </path>
-                </svg>
-                <span>5.0</span>
-              </div>
-              <p style="font-size: 0.875rem; color: var(--text-body);">
-                "Took my 8-year-old daughter for braces assessment. He made her feel completely relaxed. Very polite and
-                professional staff."
-              </p>
-            </div>
+          <div id="reviews-container">
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0; padding: 1.5rem; background: var(--bg-subtle); border-radius: var(--radius-md); text-align: center;">
+              No patient reviews yet. Verified patient ratings will appear here after consultations.
+            </p>
           </div>
         </article>
       </div>
 
-      <!-- Right Column: Appointment & Slot Booking Mockup (Visual Only) -->
+      <!-- Right Column: Dynamic Interactive Appointment Slot Booking Widget -->
       <aside>
         <div class="booking-widget">
           <div class="booking-header">
             <h3>Book Clinic Appointment</h3>
             <div class="booking-fee">
-              <span class="fee-amount">₹400</span>
+              <span id="widget-fee" class="fee-amount">₹--</span>
               <span class="fee-label">consultation fee (pay at clinic)</span>
             </div>
           </div>
 
-          <!-- Date Selector Mockup -->
+          <!-- Dynamic Date Selector Container -->
           <span class="date-selector-label">1. Select Appointment Date</span>
-          <div class="date-selector-row">
-            <div class="date-card active">
-              <span class="day-name">Mon</span>
-              <span class="day-num">16</span>
-              <span style="font-size: 0.65rem;">Sep</span>
-            </div>
-            <div class="date-card">
-              <span class="day-name">Tue</span>
-              <span class="day-num">17</span>
-              <span style="font-size: 0.65rem;">Sep</span>
-            </div>
-            <div class="date-card">
-              <span class="day-name">Wed</span>
-              <span class="day-num">18</span>
-              <span style="font-size: 0.65rem;">Sep</span>
-            </div>
-            <div class="date-card">
-              <span class="day-name">Thu</span>
-              <span class="day-num">19</span>
-              <span style="font-size: 0.65rem;">Sep</span>
-            </div>
+          <div id="dates-container" class="date-selector-row">
+            <!-- Dynamically populated by profile.js from computer calendar -->
           </div>
 
-          <!-- Time Slots Mockup -->
+          <!-- Dynamic Time Slots Containers -->
           <span class="date-selector-label">2. Select Time Slot</span>
 
           <div class="slot-section-title">Morning Slots</div>
-          <div class="slot-grid">
-            <span class="time-slot booked">10:00 AM</span>
-            <span class="time-slot booked">10:30 AM</span>
-            <span class="time-slot available">11:00 AM</span>
-            <span class="time-slot available">11:30 AM</span>
-            <span class="time-slot booked">12:00 PM</span>
-            <span class="time-slot available">12:30 PM</span>
+          <div id="morning-slots" class="slot-grid">
+            <!-- Dynamically populated by profile.js -->
           </div>
 
           <div class="slot-section-title">Afternoon / Evening Slots</div>
-          <div class="slot-grid">
-            <span class="time-slot available">02:30 PM</span>
-            <span class="time-slot booked">03:00 PM</span>
-            <span class="time-slot available">03:30 PM</span>
-            <span class="time-slot booked">04:00 PM</span>
-            <span class="time-slot selected">04:30 PM</span>
-            <span class="time-slot available">05:00 PM</span>
+          <div id="evening-slots" class="slot-grid">
+            <!-- Dynamically populated by profile.js -->
           </div>
 
           <!-- Legend -->
@@ -379,29 +213,28 @@
             </div>
           </div>
 
-          <!-- Static Appointment Summary -->
+          <!-- Live Appointment Summary -->
           <div class="booking-summary-box">
             <div class="summary-line">
               <span>Doctor:</span>
-              <strong>Dr. Tariq Lone</strong>
+              <strong id="summary-doctor">Doctor Name</strong>
             </div>
             <div class="summary-line">
               <span>Date & Time:</span>
-              <strong>Mon, 16 Sep &bull; 04:30 PM</strong>
+              <strong id="summary-datetime">Please select a slot above</strong>
             </div>
             <div class="summary-line">
               <span>Clinic:</span>
-              <span>Kashmir Smile Dental Spa</span>
+              <span id="summary-clinic">Clinic Name</span>
             </div>
             <div class="summary-line">
               <span>Total Payable at Clinic:</span>
-              <span>₹400</span>
+              <strong id="summary-fee" style="color: var(--primary); font-size: 1.1rem;">₹--</strong>
             </div>
           </div>
 
-          <!-- Booking CTA Button (Mockup - static) -->
-          <button type="button" class="btn btn-primary" style="width: 100%; font-size: 1rem; padding: 0.85rem;"
-            title="Static preview in Phase 1">
+          <!-- Booking CTA Button -->
+          <button id="btn-book-appointment" type="button" class="btn btn-primary" style="width: 100%; font-size: 1rem; padding: 0.85rem;">
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round"
                 d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
@@ -477,6 +310,7 @@
     </div>
   </footer>
 
+  <script src="profile.js"></script>
 </body>
 
 </html>
