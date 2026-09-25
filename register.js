@@ -15,6 +15,12 @@ formSubmit.addEventListener("submit", function (event) {
   const doctorDistrict = document.querySelector("#district").value.trim();
 
   const doctorFee = document.querySelector("#consultation-fee").value.trim();
+  
+const startTime = document.querySelector("#start-time").value;
+const endTime = document.querySelector("#end-time").value;
+const slotDuration = Number(document.querySelector("#slot-duration").value);
+
+
 
   const newDoctor = {
     id: Date.now(),
@@ -23,6 +29,9 @@ formSubmit.addEventListener("submit", function (event) {
     clinic: doctorClinicName,
     district: doctorDistrict,
     fee: Number(doctorFee),
+    startTime: startTime,
+    endTime: endTime,
+    slotDuration: slotDuration,
     rating: 0,
     reviews: [],
     reviewCount: 0,

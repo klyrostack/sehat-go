@@ -139,7 +139,7 @@
               </div>
               <div class="clinic-info-detail">
                 <h4>Consultation Timings</h4>
-                <p id="clinic-timings">Standard Clinic Timings: 10:00 AM – 06:00 PM</p>
+                <p id="clinic-timings">--</p>
               </div>
             </div>
           </div>
@@ -180,8 +180,23 @@
 
           <!-- Dynamic Date Selector Container -->
           <span class="date-selector-label">1. Select Appointment Date</span>
-          <div id="dates-container" class="date-selector-row">
-            <!-- Dynamically populated by profile.js from computer calendar -->
+          <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1.5rem;">
+            <!-- Left Arrow Button -->
+            <button id="prev-date-btn" type="button" class="btn btn-outline btn-sm"
+              style="padding: 0.5rem 0.75rem; border-radius: 50%;" aria-label="Previous Dates">
+              &larr;
+            </button>
+
+            <!-- Your existing dates container (takes full width) -->
+            <div id="dates-container" class="date-selector-row" style="flex: 1; margin-bottom: 0;">
+              <!-- Dates will still be injected here by JavaScript -->
+            </div>
+
+            <!-- Right Arrow Button -->
+            <button id="next-date-btn" type="button" class="btn btn-outline btn-sm"
+              style="padding: 0.5rem 0.75rem; border-radius: 50%;" aria-label="Next Dates">
+              &rarr;
+            </button>
           </div>
 
           <!-- Dynamic Time Slots Containers -->
@@ -234,6 +249,8 @@
           </div>
 
           <!-- Booking CTA Button -->
+          <p id="booking-msg"
+            style="font-size: 0.85rem; font-weight: 600; text-align: center; margin-bottom: 0.75rem; min-height: 1.2rem;"></p>
           <button id="btn-book-appointment" type="button" class="btn btn-primary" style="width: 100%; font-size: 1rem; padding: 0.85rem;">
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round"
