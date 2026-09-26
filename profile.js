@@ -28,6 +28,10 @@ Object.entries(doctorData).forEach(function ([selector, value]) {
 const today = new Date();
 const datesContainer = document.querySelector("#dates-container");
 
+
+let selectedTime = null;
+let selectedDate = "Today";
+
 datesContainer.addEventListener("click", function (event) {
   const clickedCard = event.target.closest(".date-card");
 
@@ -40,31 +44,59 @@ datesContainer.addEventListener("click", function (event) {
 
   clickedCard.classList.add("active");
 
-  selectedDate = clickedCard.querySelector(".day-name").textContent.trim();
+  selectedDate = clickedCard.dataset.fullDate;
+  renderSlots();
+
+  if (selectedTime) {
+    const summaryDateTime = document.querySelector("#summary-datetime");
+    summaryDateTime.textContent = `${selectedDate} ${selectedTime}`;
+  }
 });
 
+let dateOffset = 0;
 
-for (let i = 0; i < 4; i++) {
-  const cardDate = new Date();
-  cardDate.setDate(cardDate.getDate() + i);
+function renderDates() {
+  datesContainer.innerHTML = "";
 
-  const dayNum = cardDate.getDate();
-  const monthName = cardDate.toLocaleDateString("en-US", { month: "short" });
-  const dayName =
-    i === 0
-      ? "Today"
-      : i === 1
-        ? "Tomorrow"
-        : cardDate.toLocaleDateString("en-US", { weekday: "short" });
+  for (let i = 0; i < 4; i++) {
+    const cardDate = new Date();
+    cardDate.setDate(cardDate.getDate() + dateOffset + i);
 
-  datesContainer.innerHTML += `
-    <div class="date-card ${i === 0 ? "active" : ""}">
+    const dayNum = cardDate.getDate();
+    const monthName = cardDate.toLocaleDateString("en-US", { month: "short" });
+    const dayName =
+      dateOffset === 0 && i === 0
+        ? "Today"
+        : dateOffset === 0 && i === 1
+          ? "Tomorrow"
+          : cardDate.toLocaleDateString("en-US", { weekday: "short" });
+
+    datesContainer.innerHTML += `
+    <div class="date-card ${i === 0 ? "active" : ""}"
+    data-full-date = "${dayName}, ${dayNum}, ${monthName}">
       <span class="day-name">${dayName}</span>
       <span class="day-num">${dayNum}</span>
       <span style="font-size: 0.65rem;">${monthName}</span>
     </div>
   `;
+  }
 }
+renderDates();
+
+const nextDateBtn = document.querySelector("#next-date-btn");
+const previousDateBtn = document.querySelector("#prev-date-btn");
+
+nextDateBtn.addEventListener("click", function () {
+  dateOffset += 4;
+  renderDates();
+});
+
+previousDateBtn.addEventListener("click", function () {
+  if (dateOffset > 0) {
+    dateOffset -= 4;
+    renderDates();
+  }
+});
 
 function formatTime(totalMinutes) {
   const hours = Math.floor(totalMinutes / 60);
@@ -96,17 +128,26 @@ const endTotalMinutes = endHours * 60 + endMinutes;
 const morningSlots = document.querySelector("#morning-slots");
 const eveningSlots = document.querySelector("#evening-slots");
 
-for (let i = startTotalMinutes; i < endTotalMinutes; i += slotDuration) {
-  const slotTime = formatTime(i);
-  if (i < 720) {
-    morningSlots.innerHTML += `<span class="time-slot available">${slotTime}</span>`;
-  } else {
-    eveningSlots.innerHTML += `<span class="time-slot available">${slotTime}</span>`;
+function renderSlots() {
+  morningSlots.innerHTML = "";
+  eveningSlots.innerHTML = "";
+  const savedBookings =
+    JSON.parse(localStorage.getItem("patient_booking")) || [];
+  for (let i = startTotalMinutes; i < endTotalMinutes; i += slotDuration) {
+    const slotTime = formatTime(i);
+    const isBooked = savedBookings.some(function (booking) {
+      return booking.name === matchedDoctor.name && booking.date === selectedDate && booking.time === slotTime
+    });
+    if (i < 720) {
+      morningSlots.innerHTML += `<span class="time-slot ${isBooked ? "booked" : "available"}">${slotTime}</span>`;
+    } else {
+      eveningSlots.innerHTML += `<span class="time-slot ${isBooked ? "booked" : "available"}">${slotTime}</span>`;
+    }
   }
 }
+renderSlots();
 
-                            //   Dry Code   //
-
+//   Dry Code   //
 
 // morningSlots.addEventListener("click", function (event) {
 //   const clickedSlot = event.target.closest(".time-slot.available");
@@ -134,8 +175,6 @@ for (let i = startTotalMinutes; i < endTotalMinutes; i += slotDuration) {
 //   selectedTime = clickedSlot.textContent.trim();
 // });
 
-let selectedTime = null;
-let selectedDate = "Today"
 
 function handleSlotClick(event) {
   const clickedSlot = event.target.closest(".time-slot.available");
@@ -149,25 +188,46 @@ function handleSlotClick(event) {
 
   selectedTime = clickedSlot.textContent.trim();
 
-  const summaryDateTime = document.querySelector("#summary-datetime")
-  summaryDateTime.textContent = 
-  `${selectedDate} ${selectedTime}`
+  const summaryDateTime = document.querySelector("#summary-datetime");
+  summaryDateTime.textContent = `${selectedDate} ${selectedTime}`;
 }
 morningSlots.addEventListener("click", handleSlotClick);
 eveningSlots.addEventListener("click", handleSlotClick);
 
+const bookingMsg = document.querySelector("#booking-msg");
+const appointmentBtn = document.querySelector("#btn-book-appointment");
 
-const bookingMsg = document.querySelector("#booking-msg")
-const appointmentBtn = document.querySelector("#btn-book-appointment")
+appointmentBtn.addEventListener("click", function (event) {
+  if (!selectedTime) {
+    bookingMsg.style.color = "#ef4444";
+    bookingMsg.textContent = "Please select a time slot first!";
+    return;
+  } else {
+    bookingMsg.style.color = "#10b981";
+    bookingMsg.textContent = "Appointment Confirmed";
 
-appointmentBtn.addEventListener("click", function(event){
-    if(!selectedTime) {
-       bookingMsg.style.color = "#ef4444"
-       bookingMsg.textContent = "Please select a time slot first!"
-         return;
-    
-    }else {
-        bookingMsg.style.color = "#10b981"
-        bookingMsg.textContent = "Appointment Confirmed"
-    }
-})
+    const clinicAppointments =
+      JSON.parse(localStorage.getItem("patient_booking")) || [];
+
+    const newAppointment = {
+      id: Date.now(),
+      name: matchedDoctor.name,
+      clinic: matchedDoctor.clinic,
+      fee: matchedDoctor.fee,
+      date: selectedDate,
+      time: selectedTime,
+      status: "confirmed",
+    };
+    clinicAppointments.push(newAppointment);
+    localStorage.setItem("patient_booking", JSON.stringify(clinicAppointments));
+  }
+
+  const activeElement = document.querySelector(".time-slot.selected");
+
+  if (activeElement) {
+    activeElement.classList.remove("selected", "available");
+    activeElement.classList.add("booked");
+  }
+
+  selectedTime = null;
+});
