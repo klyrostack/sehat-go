@@ -70,32 +70,12 @@
         </div>
 
         <!-- Filter: District -->
-        <div class="filter-group">
+        <div  class="filter-group" id="district-filter-group">
           <h4 class="filter-title">District / Area</h4>
           <label class="filter-option">
-            <input type="checkbox" checked>
+            <input type="radio" name="district-fiter" value="all" checked>
             <span>All Districts</span>
-            <span class="count">0</span>
-          </label>
-          <label class="filter-option">
-            <input type="checkbox">
-            <span>Srinagar</span>
-            <span class="count">0</span>
-          </label>
-          <label class="filter-option">
-            <input type="checkbox">
-            <span>Anantnag</span>
-            <span class="count">0</span>
-          </label>
-          <label class="filter-option">
-            <input type="checkbox">
-            <span>Baramulla & Sopore</span>
-            <span class="count">0</span>
-          </label>
-          <label class="filter-option">
-            <input type="checkbox">
-            <span>Pulwama</span>
-            <span class="count">0</span>
+            <span class="count" id="count-all">0</span>
           </label>
         </div>
 
@@ -172,18 +152,18 @@
         <div
           style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
           <div>
-            <h1 style="font-size: 1.75rem; font-weight: 800; color: var(--text-main);">Dentists in Kashmir</h1>
-            <p style="font-size: 0.875rem; color: var(--text-muted);">0 Verified Dental Clinics and Specialists
+            <h1 id="category-title" style="font-size: 1.75rem; font-weight: 800; color: var(--text-main);">Dentists in Kashmir</h1>
+            <p id="category-subtitle" style="font-size: 0.875rem; color: var(--text-muted);">0 Verified Dental Clinics and Specialists
               available for appointments</p>
           </div>
 
           <div style="display: flex; align-items: center; gap: 0.5rem;">
             <span style="font-size: 0.875rem; color: var(--text-muted);">Sort by:</span>
-            <select class="form-control" style="width: auto; padding: 0.4rem 0.8rem; font-size: 0.875rem;"
+            <select id="sort-select" class="form-control" style="width: auto; padding: 0.4rem 0.8rem; font-size: 0.875rem;"
               aria-label="Sort options">
-              <option>Highest Rated</option>
-              <option>Most Experienced</option>
-              <option>Earliest Available Slot</option>
+              <option value="rating">Highest Rated</option>
+              <option value="most-experienced">Most Experienced</option>
+              <option value="earliest-slot">Earliest Available Slot</option>
             </select>
           </div>
         </div>
@@ -253,7 +233,7 @@
       </div>
     </div>
   </footer>
-
+<script src="category.js"></script>
 </body>
 
 </html>
