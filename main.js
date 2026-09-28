@@ -149,3 +149,21 @@ if (doctors.length === 0) {
     `;
   });
 }
+
+
+const activeUser = JSON.parse(localStorage.getItem("current_user"))
+
+const navActions = document.querySelector(".nav-actions")
+
+if (activeUser){
+  navActions.innerHTML = `
+    <a href="dashboard.html" class="btn btn-ghost btn-sm">Dashboard</a>
+    <button id="logout-btn" class="btn btn-outline btn-sm">Logout</button>
+   
+  `;
+
+  document.querySelector("#logout-btn").addEventListener("click", function(){
+    localStorage.removeItem("current_user")
+    window.location.reload()
+  })
+}
