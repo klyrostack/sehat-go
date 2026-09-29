@@ -1,13 +1,20 @@
+// URL Query Parameters: Extract Doctor ID from Address Bar
 const queryParams = new URLSearchParams(window.location.search);
 
 const doctorId = queryParams.get("id");
 
+// Doctor Record Lookup: Retrieve Matching Doctor from LocalStorage
 const currentDoctor = JSON.parse(localStorage.getItem("clinic_doctors")) || [];
 
 const matchedDoctor = currentDoctor.find(function (doctor) {
   return doctor.id === Number(doctorId);
 });
 
+if (!matchedDoctor) {
+  window.location.href = "category.html";
+}
+
+// Profile Hero & Header: Batch DOM Injection for Doctor Details
 const doctorData = {
   "#doctor-name": matchedDoctor.name,
   "#doctor-specialty": matchedDoctor.specialty,
@@ -25,13 +32,14 @@ Object.entries(doctorData).forEach(function ([selector, value]) {
   document.querySelector(selector).textContent = value;
 });
 
+// Appointment Booking Widget: Calendar State & Container Selector
 const today = new Date();
 const datesContainer = document.querySelector("#dates-container");
-
 
 let selectedTime = null;
 let selectedDate = "Today";
 
+// Calendar Date Card Selector: Switch Active Date & Sync Summary
 datesContainer.addEventListener("click", function (event) {
   const clickedCard = event.target.closest(".date-card");
 
@@ -53,6 +61,7 @@ datesContainer.addEventListener("click", function (event) {
   }
 });
 
+// Date Slider Engine: Generate 4-Day Calendar Date Cards
 let dateOffset = 0;
 
 function renderDates() {
@@ -83,6 +92,7 @@ function renderDates() {
 }
 renderDates();
 
+// Date Slider Navigation: Previous & Next Date Offset Buttons
 const nextDateBtn = document.querySelector("#next-date-btn");
 const previousDateBtn = document.querySelector("#prev-date-btn");
 
@@ -98,6 +108,7 @@ previousDateBtn.addEventListener("click", function () {
   }
 });
 
+// Time Formatting Utility: Convert Total Minutes to 12-Hour AM/PM String
 function formatTime(totalMinutes) {
   const hours = Math.floor(totalMinutes / 60);
   const minutes = totalMinutes % 60;
@@ -107,6 +118,7 @@ function formatTime(totalMinutes) {
   return `${displayHours}:${displayMinutes} ${period}`;
 }
 
+// Working Hours Parser: Compute Schedule Start & End Minutes
 const startTime = matchedDoctor.startTime || "10:00";
 
 const endTime = matchedDoctor.endTime || "14:00";
@@ -125,6 +137,7 @@ const endMinutes = Number(endParts[1]);
 
 const endTotalMinutes = endHours * 60 + endMinutes;
 
+// Time Slot Engine: Render Available & Booked Morning/Evening Slots
 const morningSlots = document.querySelector("#morning-slots");
 const eveningSlots = document.querySelector("#evening-slots");
 
@@ -136,7 +149,11 @@ function renderSlots() {
   for (let i = startTotalMinutes; i < endTotalMinutes; i += slotDuration) {
     const slotTime = formatTime(i);
     const isBooked = savedBookings.some(function (booking) {
-      return booking.name === matchedDoctor.name && booking.date === selectedDate && booking.time === slotTime
+      return (
+        booking.name === matchedDoctor.name &&
+        booking.date === selectedDate &&
+        booking.time === slotTime
+      );
     });
     if (i < 720) {
       morningSlots.innerHTML += `<span class="time-slot ${isBooked ? "booked" : "available"}">${slotTime}</span>`;
@@ -175,7 +192,7 @@ renderSlots();
 //   selectedTime = clickedSlot.textContent.trim();
 // });
 
-
+// Slot Selection Handler: Select Time Slot & Update Booking Summary
 function handleSlotClick(event) {
   const clickedSlot = event.target.closest(".time-slot.available");
   if (!clickedSlot) return;
@@ -194,10 +211,17 @@ function handleSlotClick(event) {
 morningSlots.addEventListener("click", handleSlotClick);
 eveningSlots.addEventListener("click", handleSlotClick);
 
+// Appointment Booking Action: Persist Booking to LocalStorage & Mark Slot Booked
 const bookingMsg = document.querySelector("#booking-msg");
 const appointmentBtn = document.querySelector("#btn-book-appointment");
 
 appointmentBtn.addEventListener("click", function (event) {
+  if(!activeUser){
+    bookingMsg.style.color = "#ef4444";
+     bookingMsg.textContent = "Please log in to book an appointment!";
+     window.location.href = "login.html";
+     return;
+  }
   if (!selectedTime) {
     bookingMsg.style.color = "#ef4444";
     bookingMsg.textContent = "Please select a time slot first!";
@@ -212,6 +236,7 @@ appointmentBtn.addEventListener("click", function (event) {
     const newAppointment = {
       id: Date.now(),
       name: matchedDoctor.name,
+      patientName: activeUser.name,
       clinic: matchedDoctor.clinic,
       fee: matchedDoctor.fee,
       date: selectedDate,
@@ -231,3 +256,22 @@ appointmentBtn.addEventListener("click", function (event) {
 
   selectedTime = null;
 });
+
+
+// Site Header Navigation: Dynamic Session Controls & Global Logout
+const activeUser = JSON.parse(localStorage.getItem("current_user"));
+
+const navActions = document.querySelector(".nav-actions");
+
+if (activeUser) {
+  navActions.innerHTML = `
+    <a href="dashboard.html" class="btn btn-ghost btn-sm">Dashboard</a>
+    <button id="logout-btn" class="btn btn-outline btn-sm">Logout</button>
+   
+  `;
+
+  document.querySelector("#logout-btn").addEventListener("click", function () {
+    localStorage.removeItem("current_user");
+    window.location.reload();
+  });
+}

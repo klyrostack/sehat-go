@@ -1,9 +1,11 @@
+// Route Guard: Protect Dashboard & Redirect Unauthenticated Visitors
 const activeSession = JSON.parse(localStorage.getItem("current_user"));
 
 if (!activeSession) {
   window.location.href = "login.html";
 }
 
+// Shared Profile Card: Display User Info, Avatar Initial & Role Badge
 const dashUserName = document.querySelector("#dashboard-user-name");
 dashUserName.textContent = activeSession.name;
 
@@ -22,6 +24,7 @@ const dashUserSubtext = document.querySelector("#dashboard-user-subtext");
 dashUserSubtext.textContent =
   activeSession.clinic || "Verified Patient Account";
 
+// Doctor Portal View: Practice Details, Operational Meta & Patient Queue
 if (activeSession.role === "doctor") {
   dashUserName.textContent = activeSession.name;
   userAvatar.textContent = activeSession.name.charAt(0).toUpperCase();
@@ -71,7 +74,7 @@ if (activeSession.role === "doctor") {
        <div class="appointment-item">
         <div>
           <span class="status-pill confirmed">Confirmed</span>
-          <h3 style="margin-top: 0.25rem;">Patient Consultation</h3>
+         <h3 style="margin-top: 0.25rem;">Patient: ${app.patientName || "Verified Patient"}</h3>
           <div class="appointment-meta">
             <span>📅 ${app.date}</span>
             <span>⏰ ${app.time}</span>
@@ -85,24 +88,30 @@ if (activeSession.role === "doctor") {
 
   document.querySelector("#doctor-view").style.display = "block";
 } else {
+  // Patient Portal View: Booked Appointments & Real-Time Cancellation Engine
   dashUserName.textContent = "Patient Portal";
-userAvatar.textContent = "P";
-dashUserSubtext.textContent = `${activeSession.name} • Verified Patient Account`;
+  userAvatar.textContent = "P";
+  dashUserSubtext.textContent = `${activeSession.name} • Verified Patient Account`;
   document.querySelector("#patient-view").style.display = "block";
 
   const patientBooking =
     JSON.parse(localStorage.getItem("patient_booking")) || [];
 
+    const myBookings = patientBooking.filter(function(entry){
+      return entry.patientName && entry.patientName.toLowerCase() === activeSession.name.toLowerCase()
+    
+    })
+
   document.querySelector("#patient-stat-count").textContent =
-    patientBooking.length;
+    myBookings.length;
 
   const patientList = document.querySelector("#patient-appointments-list");
 
-  if (patientBooking.length === 0) {
+  if (myBookings.length === 0) {
     patientList.innerHTML = `<div class="empty-dashboard-card"><p>No appointments booked yet.</p></div>`;
   } else {
     patientList.innerHTML = "";
-    patientBooking.forEach(function (entry) {
+    myBookings.forEach(function (entry) {
       patientList.innerHTML += ` <div class="appointment-item">
     <div>
       <span class="status-pill confirmed">Confirmed</span>
@@ -133,6 +142,7 @@ dashUserSubtext.textContent = `${activeSession.name} • Verified Patient Accoun
   }
 }
 
+// Dashboard Logout: Clear Session from LocalStorage & Redirect to Login
 const logoutBtn = document.querySelector("#dashboard-logout-btn");
 
 logoutBtn.addEventListener("click", function () {

@@ -1,3 +1,4 @@
+// Navigation & Search: DOM Element Selectors
 const myHeader = document.querySelector(".site-header");
 const navMenu = document.querySelector(".nav-menu");
 
@@ -17,15 +18,18 @@ const searchWrapper = document.querySelector(".search-wrapper");
 
 const searchDropdown = document.querySelector(".search-dropdown");
 
+// Brand Logo: Prevent Default Link Navigation
 brandLogo.addEventListener("click", function (event) {
   event.preventDefault();
   console.log("Brand Logo was clicked");
 });
 
+// Mobile Navigation: Toggle Hamburger Menu
 navToggle.addEventListener("click", function () {
   navMenu.classList.toggle("show");
 });
 
+// Navigation Links: Active State Highlighter
 navLinks.forEach(function (link) {
   link.addEventListener("click", function () {
     navLinks.forEach(function (navLinks) {
@@ -37,8 +41,7 @@ navLinks.forEach(function (link) {
     console.log("Clicked:", link.textContent);
   });
 });
-// Listener 1: Handles Form Submit.
-
+// Hero Search Form: Multi-Condition Filtering & Live Dropdown
 searchForm.addEventListener("submit", function (event) {
   event.preventDefault();
 
@@ -67,33 +70,32 @@ searchForm.addEventListener("submit", function (event) {
       searchDropdown.innerHTML = "";
       filteredDoctors.forEach(function (doctor) {
         searchDropdown.innerHTML += `
-  <div style="padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+  <a href="doctor-profile.html?id=${doctor.id}" style="padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; text-decoration: none; color: inherit;">
     <div>
       <h4 style="margin: 0; font-size: 1rem; font-weight: 600;">${doctor.name}</h4>
       <p style="margin: 0.25rem 0 0 0; font-size: 0.85rem; color: var(--text-muted);">${doctor.specialty} • ${doctor.clinic} (${doctor.district})</p>
     </div>
     <span style="font-weight: 600; color: var(--accent);">⭐ ${doctor.rating}</span>
-  </div>
+  </a>
 `;
       });
     }
   }
 });
 
+// Search Dropdown: Dismiss on Outside Click
 document.addEventListener("click", function (event) {
   if (!searchWrapper.contains(event.target)) {
     searchDropdown.classList.remove("show");
   }
 });
 
-// Listener 2: Stands independently outside, listening for typing.
-
+// Search Input: Clear Validation Error On Typing
 searchInput.addEventListener("input", function () {
   searchInput.parentElement.classList.remove("error");
 });
 
-// Popular search Pills.
-
+// Popular Search Pills: Quick-Filter Input Autofill
 const popularTags = document.querySelectorAll(".tag-pill");
 
 popularTags.forEach(function (tag) {
@@ -105,8 +107,7 @@ popularTags.forEach(function (tag) {
   });
 });
 
-// Featured Doctors.
-
+// Featured Doctors Section: Top 3 Rated Clinics & Empty State Banner
 const doctorGrid = document.querySelector(".doctor-grid");
 const doctors = JSON.parse(localStorage.getItem("clinic_doctors")) || [];
 
@@ -151,6 +152,7 @@ if (doctors.length === 0) {
 }
 
 
+// Site Header Navigation: Dynamic Session Controls & Global Logout
 const activeUser = JSON.parse(localStorage.getItem("current_user"))
 
 const navActions = document.querySelector(".nav-actions")

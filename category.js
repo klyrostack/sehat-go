@@ -1,3 +1,4 @@
+// URL Query Routing: Extract Specialty Parameter & Filter Doctors
 const urlParams = new URLSearchParams(window.location.search);
 
 const selectedCategory = urlParams.get("specialty");
@@ -10,10 +11,12 @@ const filteredDoctors = selectedCategory
     })
   : doctors;
 
+// Doctor Listings Section: DOM Container Selectors
 const listingContainer = document.querySelector("#doctor-listings-container");
 
 const categorySubtitle = document.querySelector("#category-subtitle");
 
+// Doctor Cards Renderer: Dynamic Card Grid & Empty State Box
 function renderDoctors(filteredDoctors) {
   categorySubtitle.textContent = `${filteredDoctors.length} Verified specialist(s) available for appointments`;
 
@@ -51,20 +54,20 @@ function renderDoctors(filteredDoctors) {
 }
 renderDoctors(filteredDoctors);
 
-// Doctors Verified //
-
+// Category Header: Dynamic Specialty Title & Total Count Sync
 const categoryTitle = document.querySelector("#category-title");
 
 categoryTitle.textContent = `${selectedCategory || "All Doctors"} in Kashmir `;
 
 document.querySelector("#count-all").textContent = filteredDoctors.length;
 
+// District Filter Pipeline: Extract Unique Districts using Set
 const allDistricts = filteredDoctors.map(function (doctor) {
   return doctor.district.toLowerCase();
 });
 const uniqueDistricts = [...new Set(allDistricts)];
 
-
+// Sidebar Filter UI: Generate District Radio Buttons & Badges
 const filterGroup = document.querySelector("#district-filter-group");
 
 uniqueDistricts.forEach(function (district) {
@@ -72,7 +75,7 @@ uniqueDistricts.forEach(function (district) {
     return doctors.district.toLowerCase() === district;
   }).length;
 
- filterGroup.innerHTML += `
+  filterGroup.innerHTML += `
   <label class="filter-option">
     <input type="radio" name="district-fiter" value="${district}">
     <span style="text-transform: capitalize;">${district}</span>
@@ -80,8 +83,8 @@ uniqueDistricts.forEach(function (district) {
   </label>
 `;
 });
-;
 
+// District Filter Event: Filter Doctor Listings by Selected District
 filterGroup.addEventListener("change", function (event) {
   const selectedDistrict = event.target.value;
 
@@ -96,6 +99,7 @@ filterGroup.addEventListener("change", function (event) {
   renderDoctors(matchingDoctors);
 });
 
+// Sorting Engine: Sort Listings by Rating or Earliest Slot
 const sortDropdown = document.querySelector("#sort-select");
 
 sortDropdown.addEventListener("change", function (event) {
@@ -114,10 +118,28 @@ sortDropdown.addEventListener("change", function (event) {
   renderDoctors(sortedDoctors);
 });
 
+// Card Navigation: Event Delegation to Open Doctor Profile
+listingContainer.addEventListener("click", function (event) {
+  const clickedCard = event.target.closest(".doctor-card");
+  if (!clickedCard) return;
+  window.location.href = `doctor-profile.html?id=${clickedCard.dataset.doctorId}`;
+});
 
-listingContainer.addEventListener("click", function(event){
-    const clickedCard = event.target.closest(".doctor-card")
-    if(!clickedCard) return;
-    window.location.href = `doctor-profile.html?id=${clickedCard.dataset.doctorId}`
+
+// Site Header Navigation: Dynamic Session Controls & Global Logout
+const activeUser = JSON.parse(localStorage.getItem("current_user"));
+
+const navActions = document.querySelector(".nav-actions");
+
+if (activeUser) {
+  navActions.innerHTML = `
+    <a href="dashboard.html" class="btn btn-ghost btn-sm">Dashboard</a>
+    <button id="logout-btn" class="btn btn-outline btn-sm">Logout</button>
+   
+  `;
+
+  document.querySelector("#logout-btn").addEventListener("click", function () {
+    localStorage.removeItem("current_user");
+    window.location.reload();
+  });
 }
-)
