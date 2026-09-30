@@ -245,6 +245,27 @@ appointmentBtn.addEventListener("click", function (event) {
     };
     clinicAppointments.push(newAppointment);
     localStorage.setItem("patient_booking", JSON.stringify(clinicAppointments));
+
+
+    const tokenId = "SG-" + String(newAppointment.id).slice(-5);
+   
+    document.querySelector("#pass-token-id").textContent = tokenId
+    document.querySelector("#pass-doctor-name").textContent = newAppointment.name
+
+    document.querySelector("#pass-doctor-specialty").textContent = matchedDoctor.specialty
+    document.querySelector("#pass-patient-name").textContent = newAppointment.patientName
+
+    document.querySelector("#pass-datetime").textContent =` ${newAppointment.date}  ${newAppointment.time}`
+
+document.querySelector("#pass-clinic-name").textContent = newAppointment.clinic
+
+document.querySelector("#pass-clinic-district").textContent = matchedDoctor.district
+
+document.querySelector("#pass-consultation-fee").textContent =
+  `₹${newAppointment.fee}`;
+
+  document.querySelector("#booking-confirmation-modal").style.display = "flex"
+
   }
 
   const activeElement = document.querySelector(".time-slot.selected");
@@ -257,6 +278,14 @@ appointmentBtn.addEventListener("click", function (event) {
   selectedTime = null;
 });
 
+
+document.querySelector("#modal-close-btn").addEventListener("click", function(){
+  document.querySelector("#booking-confirmation-modal").style.display = "none"
+})
+
+document.querySelector("#btn-print-pass").addEventListener("click", function(){
+  window.print()
+})
 
 // Site Header Navigation: Dynamic Session Controls & Global Logout
 const activeUser = JSON.parse(localStorage.getItem("current_user"));
@@ -275,3 +304,4 @@ if (activeUser) {
     window.location.reload();
   });
 }
+
