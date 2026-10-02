@@ -92,20 +92,37 @@ function renderDates() {
 }
 renderDates();
 
+const activeElement = datesContainer.querySelector(".date-card.active");
+if (activeElement) {
+  selectedDate = activeElement.dataset.fullDate;
+}
+
 // Date Slider Navigation: Previous & Next Date Offset Buttons
 const nextDateBtn = document.querySelector("#next-date-btn");
 const previousDateBtn = document.querySelector("#prev-date-btn");
 
+function syncCalanderSlots() {
+    const activeCard = datesContainer.querySelector(".date-card.active");
+    if (activeCard) {
+      selectedDate = activeCard.dataset.fullDate;
+    }
+    selectedTime = null;
+    renderSlots();
+  }
+
 nextDateBtn.addEventListener("click", function () {
   dateOffset += 4;
   renderDates();
+  syncCalanderSlots();
 });
 
 previousDateBtn.addEventListener("click", function () {
   if (dateOffset > 0) {
     dateOffset -= 4;
     renderDates();
+    syncCalanderSlots();
   }
+  
 });
 
 // Time Formatting Utility: Convert Total Minutes to 12-Hour AM/PM String
@@ -216,11 +233,11 @@ const bookingMsg = document.querySelector("#booking-msg");
 const appointmentBtn = document.querySelector("#btn-book-appointment");
 
 appointmentBtn.addEventListener("click", function (event) {
-  if(!activeUser){
+  if (!activeUser) {
     bookingMsg.style.color = "#ef4444";
-     bookingMsg.textContent = "Please log in to book an appointment!";
-     window.location.href = "login.html";
-     return;
+    bookingMsg.textContent = "Please log in to book an appointment!";
+    window.location.href = "login.html";
+    return;
   }
   if (!selectedTime) {
     bookingMsg.style.color = "#ef4444";
@@ -246,26 +263,31 @@ appointmentBtn.addEventListener("click", function (event) {
     clinicAppointments.push(newAppointment);
     localStorage.setItem("patient_booking", JSON.stringify(clinicAppointments));
 
-
     const tokenId = "SG-" + String(newAppointment.id).slice(-5);
-   
-    document.querySelector("#pass-token-id").textContent = tokenId
-    document.querySelector("#pass-doctor-name").textContent = newAppointment.name
 
-    document.querySelector("#pass-doctor-specialty").textContent = matchedDoctor.specialty
-    document.querySelector("#pass-patient-name").textContent = newAppointment.patientName
+    document.querySelector("#pass-token-id").textContent = tokenId;
+    document.querySelector("#pass-doctor-name").textContent =
+      newAppointment.name;
 
-    document.querySelector("#pass-datetime").textContent =` ${newAppointment.date}  ${newAppointment.time}`
+    document.querySelector("#pass-doctor-specialty").textContent =
+      matchedDoctor.specialty;
+    document.querySelector("#pass-patient-name").textContent =
+      newAppointment.patientName;
 
-document.querySelector("#pass-clinic-name").textContent = newAppointment.clinic
+    document.querySelector("#pass-datetime").textContent =
+      ` ${newAppointment.date}  ${newAppointment.time}`;
 
-document.querySelector("#pass-clinic-district").textContent = matchedDoctor.district
+    document.querySelector("#pass-clinic-name").textContent =
+      newAppointment.clinic;
 
-document.querySelector("#pass-consultation-fee").textContent =
-  `₹${newAppointment.fee}`;
+    document.querySelector("#pass-clinic-district").textContent =
+      matchedDoctor.district;
 
-  document.querySelector("#booking-confirmation-modal").style.display = "flex"
+    document.querySelector("#pass-consultation-fee").textContent =
+      `₹${newAppointment.fee}`;
 
+    document.querySelector("#booking-confirmation-modal").style.display =
+      "flex";
   }
 
   const activeElement = document.querySelector(".time-slot.selected");
@@ -278,14 +300,18 @@ document.querySelector("#pass-consultation-fee").textContent =
   selectedTime = null;
 });
 
+document
+  .querySelector("#modal-close-btn")
+  .addEventListener("click", function () {
+    document.querySelector("#booking-confirmation-modal").style.display =
+      "none";
+  });
 
-document.querySelector("#modal-close-btn").addEventListener("click", function(){
-  document.querySelector("#booking-confirmation-modal").style.display = "none"
-})
-
-document.querySelector("#btn-print-pass").addEventListener("click", function(){
-  window.print()
-})
+document
+  .querySelector("#btn-print-pass")
+  .addEventListener("click", function () {
+    window.print();
+  });
 
 // Site Header Navigation: Dynamic Session Controls & Global Logout
 const activeUser = JSON.parse(localStorage.getItem("current_user"));
@@ -304,4 +330,3 @@ if (activeUser) {
     window.location.reload();
   });
 }
-

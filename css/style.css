@@ -1848,7 +1848,13 @@ button {
   color: var(--success);
 }
 
-.status-pill.canceled {
+.status-pill.completed {
+  background: #e0f2fe;
+  color: #0284c7;
+}
+
+.status-pill.canceled,
+.status-pill.cancelled {
   background: var(--danger-light);
   color: var(--danger);
 }

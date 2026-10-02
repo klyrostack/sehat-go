@@ -21,7 +21,6 @@ const searchDropdown = document.querySelector(".search-dropdown");
 // Brand Logo: Prevent Default Link Navigation
 brandLogo.addEventListener("click", function (event) {
   event.preventDefault();
-  console.log("Brand Logo was clicked");
 });
 
 // Mobile Navigation: Toggle Hamburger Menu
@@ -37,8 +36,6 @@ navLinks.forEach(function (link) {
     });
 
     link.classList.add("active");
-
-    console.log("Clicked:", link.textContent);
   });
 });
 // Hero Search Form: Multi-Condition Filtering & Live Dropdown
@@ -55,12 +52,16 @@ searchForm.addEventListener("submit", function (event) {
     searchInput.focus();
   } else {
     const filteredDoctors = doctors.filter(function (doctor) {
-      const matchesSpecialty = doctor.specialty
+      const query = searchQuery.toLowerCase()
+      const matchesText = doctor.specialty
         .toLowerCase()
-        .includes(searchQuery.toLowerCase());
+        .includes(query) ||
+        doctor.name.toLowerCase().includes(query) ||
+        doctor.clinic.toLowerCase().includes(query);
+
       const matchesDistrict =
         district === "" || doctor.district.toLowerCase() === district.toLowerCase();
-      return matchesSpecialty && matchesDistrict;
+      return matchesText && matchesDistrict;
   
     });
     searchDropdown.classList.add("show");

@@ -12,6 +12,8 @@ form.addEventListener("submit", function (event) {
 
   const userPassword = document.querySelector("#login-password").value.trim();
 
+  const loginError = document.querySelector("#login-error-msg");
+
   // Doctor Authentication: Verify Against LocalStorage & Redirect to Dashboard
   if (isDoctor) {
     const doctorList = JSON.parse(localStorage.getItem("clinic_doctors")) || [];
@@ -30,7 +32,9 @@ form.addEventListener("submit", function (event) {
       localStorage.setItem("current_user", JSON.stringify(sessionUser));
       window.location.href = "dashboard.html";
     } else {
-      alert("Doctor account not found! Check your name or register first.");
+      loginError.textContent =
+        "Doctor account not found! Check your name or register first.";
+      loginError.style.display = "block";
     }
   } else {
     // Patient Authentication: Instant Verified Session & Redirect to Home
@@ -44,8 +48,7 @@ form.addEventListener("submit", function (event) {
       );
     });
 
-    const loginError = document.querySelector("#login-error-msg");
-
+  
     if (matchedPatient) {
       const sessionUser = {
         role: "patient",
@@ -125,8 +128,9 @@ patientRegisterForm.addEventListener("submit", function (event) {
 
   const activeSession = {
     role: "patient",
-    id: Date.now(),
+    id: newPatient.id,
     name: newPatient.name,
+    identifier: newPatient.identifier,
   };
   localStorage.setItem("current_user", JSON.stringify(activeSession));
   window.location.href = "dashboard.html";

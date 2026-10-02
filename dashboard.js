@@ -9,7 +9,6 @@ if (!activeSession) {
 const dashUserName = document.querySelector("#dashboard-user-name");
 dashUserName.textContent = activeSession.name;
 
-
 const userAvatar = document.querySelector("#user-avatar");
 
 userAvatar.textContent = activeSession.name.charAt(0).toUpperCase();
@@ -34,6 +33,9 @@ if (activeSession.role === "doctor") {
   const currentDoctor = allDoctors.find(function (doc) {
     return doc.name.toLowerCase() === activeSession.name.toLowerCase();
   });
+  if (!currentDoctor) {
+    window.location.href = "login.html";
+  }
 
   document.querySelector("#doctor-pill-specialty").textContent =
     currentDoctor.specialty;
@@ -57,6 +59,19 @@ if (activeSession.role === "doctor") {
   document.querySelector("#doctor-stat-count").textContent =
     doctorBookings.length;
 
+  const totalRevenue = doctorBookings.reduce(function (
+    accumulator,
+    currentItem,
+  ) {
+    if (currentItem.status === "cancelled") {
+      return accumulator;
+    }
+    return accumulator + (Number(currentItem.fee) || 0);
+  }, 0);
+
+  document.querySelector("#doctor-stat-revenue").textContent =
+    `₹ ${totalRevenue}`;
+
   const list = document.querySelector("#doctor-patients-list");
 
   if (doctorBookings.length === 0) {
@@ -73,7 +88,7 @@ if (activeSession.role === "doctor") {
       list.innerHTML += `
        <div class="appointment-item">
         <div>
-          <span class="status-pill confirmed">Confirmed</span>
+          <span class="status-pill ${app.status || "confirmed"}">${app.status || "Confirmed"}</span>
          <h3 style="margin-top: 0.25rem;">Patient: ${app.patientName || "Verified Patient"}</h3>
           <div class="appointment-meta">
             <span>📅 ${app.date}</span>
@@ -81,10 +96,33 @@ if (activeSession.role === "doctor") {
             <span>💰 ₹${app.fee} (Payable at clinic)</span>
           </div>
         </div>
+          <button class="btn btn-outline btn-sm btn-queue-action" data-id="${app.id}" data-status="completed">Done</button>
+      <button class="btn btn-outline btn-sm btn-queue-action" data-id="${app.id}" data-status="cancelled" style="color: #ef4444; border-color: #fca5a5;">No-Show</button>
       </div>
       `;
     });
   }
+
+  list.addEventListener("click", function (event) {
+    const actionBtn = event.target.closest(".btn-queue-action");
+    if (!actionBtn) return;
+
+    const targetId = Number(actionBtn.dataset.id);
+    const newStatus = actionBtn.dataset.status;
+
+    const allBookings =
+      JSON.parse(localStorage.getItem("patient_booking")) || [];
+
+    const updatedBookings = allBookings.map(function (booking) {
+      if (booking.id === targetId) {
+        return { ...booking, status: newStatus };
+      }
+      return booking;
+    });
+    localStorage.setItem("patient_booking", JSON.stringify(updatedBookings));
+
+    window.location.reload();
+  });
 
   document.querySelector("#doctor-view").style.display = "block";
 } else {
@@ -97,13 +135,14 @@ if (activeSession.role === "doctor") {
   const patientBooking =
     JSON.parse(localStorage.getItem("patient_booking")) || [];
 
-    const myBookings = patientBooking.filter(function(entry){
-      return entry.patientName && entry.patientName.toLowerCase() === activeSession.name.toLowerCase()
-    
-    })
+  const myBookings = patientBooking.filter(function (entry) {
+    return (
+      entry.patientName &&
+      entry.patientName.toLowerCase() === activeSession.name.toLowerCase()
+    );
+  });
 
-  document.querySelector("#patient-stat-count").textContent =
-    myBookings.length;
+  document.querySelector("#patient-stat-count").textContent = myBookings.length;
 
   const patientList = document.querySelector("#patient-appointments-list");
 
