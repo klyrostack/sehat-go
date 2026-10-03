@@ -102,13 +102,13 @@ const nextDateBtn = document.querySelector("#next-date-btn");
 const previousDateBtn = document.querySelector("#prev-date-btn");
 
 function syncCalanderSlots() {
-    const activeCard = datesContainer.querySelector(".date-card.active");
-    if (activeCard) {
-      selectedDate = activeCard.dataset.fullDate;
-    }
-    selectedTime = null;
-    renderSlots();
+  const activeCard = datesContainer.querySelector(".date-card.active");
+  if (activeCard) {
+    selectedDate = activeCard.dataset.fullDate;
   }
+  selectedTime = null;
+  renderSlots();
+}
 
 nextDateBtn.addEventListener("click", function () {
   dateOffset += 4;
@@ -122,7 +122,6 @@ previousDateBtn.addEventListener("click", function () {
     renderDates();
     syncCalanderSlots();
   }
-  
 });
 
 // Time Formatting Utility: Convert Total Minutes to 12-Hour AM/PM String
@@ -330,3 +329,103 @@ if (activeUser) {
     window.location.reload();
   });
 }
+
+function renderDoctorReviews() {
+  const allReviews = JSON.parse(localStorage.getItem("clinic_reviews")) || [];
+
+  const doctorReviews = allReviews.filter(function (review) {
+    return review.doctorId === matchedDoctor.id;
+  });
+  if (doctorReviews.length > 0) {
+    const reviews = doctorReviews.reduce(function (accumulator, current) {
+      return accumulator + Number(current.rating);
+    }, 0);
+    const avgRating = (reviews / doctorReviews.length).toFixed(1);
+    document.querySelector("#doctor-rating").textContent =
+      `⭐${avgRating} (${doctorReviews.length} Reviews)`;
+    document.querySelector("#reviews-count-badge").textContent =
+      `${doctorReviews.length} Reviews`;
+
+      const allDoctors =
+        JSON.parse(localStorage.getItem("clinic_doctors")) || [];
+
+        const docIndex = allDoctors.findIndex(function (doc) {
+          return doc.id === matchedDoctor.id;
+        });
+
+        if (docIndex !== -1) {
+          allDoctors[docIndex].rating = Number(avgRating);
+          localStorage.setItem("clinic_doctors", JSON.stringify(allDoctors));
+        }
+
+    const reviewsContainer = document.querySelector("#reviews-container");
+    reviewsContainer.innerHTML = "";
+
+    doctorReviews.forEach(function (rev) {
+      reviewsContainer.innerHTML += `
+    <div style="padding: 1rem; border-bottom: 1px solid var(--border); margin-bottom: 0.75rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+        <strong style="color: var(--text-main);">${rev.patientName}</strong>
+        <span style="color: var(--accent); font-weight: 600;">⭐ ${rev.rating}.0</span>
+      </div>
+      <p style="margin: 0.25rem 0 0.5rem 0; color: var(--text-body); font-size: 0.95rem;">${rev.comment}</p>
+      <small style="color: var(--text-muted); font-size: 0.8rem;">📅 ${rev.date}</small>
+    </div>
+  `;
+    });
+  } else {
+    document.querySelector("#doctor-rating").textContent =
+      "⭐ Newly Registered";
+    document.querySelector("#reviews-count-badge").textContent = "0 Reviews";
+    document.querySelector("#reviews-container").innerHTML = `
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0; padding: 1.5rem; background: var(--bg-subtle); border-radius: var(--radius-md); text-align: center;">
+        No patient reviews yet. Verified patient ratings will appear here after consultations.
+      </p>
+    `;
+  }
+}
+renderDoctorReviews();
+
+document
+  .querySelector("#patient-review-form")
+  .addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const rating = Number(document.querySelector("#review-rating").value);
+    const comment = document.querySelector("#review-comment").value.trim();
+    const errorBox = document.querySelector("#review-form-error");
+
+    if (comment === "") {
+      errorBox.textContent = "Please write a brief feedback comment!";
+      errorBox.style.display = "block";
+      return;
+    } else {
+      errorBox.style.display = "none";
+    }
+
+    const activeUser = JSON.parse(localStorage.getItem("current_user"));
+
+    const reviewerName = activeUser ? activeUser.name : "Verified Patient";
+
+    const newReview = {
+      id: Date.now(),
+      doctorId: matchedDoctor.id,
+      patientName: reviewerName,
+      rating: rating,
+      comment: comment,
+      date: new Date().toLocaleDateString("en-IN", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      }),
+    };
+    const allReviews = JSON.parse(localStorage.getItem("clinic_reviews")) || [];
+
+    allReviews.unshift(newReview);
+
+    localStorage.setItem("clinic_reviews", JSON.stringify(allReviews));
+
+    renderDoctorReviews();
+    document.querySelector("#patient-review-form").reset();
+
+  });

@@ -36,7 +36,7 @@ function renderDoctors(filteredDoctors) {
     <div class="doctor-basic-info">
       <div class="doctor-specialty">${doctor.specialty}</div>
       <h3 class="doctor-name">${doctor.name}</h3>
-      <div class="doctor-rating">⭐ ${doctor.rating}</div>
+      <div class="doctor-rating">${doctor.rating > 0 ? "⭐ " + doctor.rating : "⭐ Newly Registered"}</div>
     </div>
   </div>
 

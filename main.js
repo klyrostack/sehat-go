@@ -39,9 +39,9 @@ navLinks.forEach(function (link) {
   });
 });
 // Hero Search Form: Multi-Condition Filtering & Live Dropdown
-searchForm.addEventListener("submit", function (event) {
-  event.preventDefault();
+let debounceTimer;
 
+function performSearch() {
   let searchQuery = searchInput.value.trim();
   let district = districtSelect.value;
 
@@ -52,17 +52,16 @@ searchForm.addEventListener("submit", function (event) {
     searchInput.focus();
   } else {
     const filteredDoctors = doctors.filter(function (doctor) {
-      const query = searchQuery.toLowerCase()
-      const matchesText = doctor.specialty
-        .toLowerCase()
-        .includes(query) ||
+      const query = searchQuery.toLowerCase();
+      const matchesText =
+        doctor.specialty.toLowerCase().includes(query) ||
         doctor.name.toLowerCase().includes(query) ||
         doctor.clinic.toLowerCase().includes(query);
 
       const matchesDistrict =
-        district === "" || doctor.district.toLowerCase() === district.toLowerCase();
+        district === "" ||
+        doctor.district.toLowerCase() === district.toLowerCase();
       return matchesText && matchesDistrict;
-  
     });
     searchDropdown.classList.add("show");
     if (filteredDoctors.length === 0) {
@@ -76,12 +75,30 @@ searchForm.addEventListener("submit", function (event) {
       <h4 style="margin: 0; font-size: 1rem; font-weight: 600;">${doctor.name}</h4>
       <p style="margin: 0.25rem 0 0 0; font-size: 0.85rem; color: var(--text-muted);">${doctor.specialty} • ${doctor.clinic} (${doctor.district})</p>
     </div>
-    <span style="font-weight: 600; color: var(--accent);">⭐ ${doctor.rating}</span>
+    <span style="font-weight: 600; color: var(--accent);"> ${doctor.rating > 0 ? "⭐ " + doctor.rating : "⭐ Newly Registered"}</span>
   </a>
 `;
       });
     }
   }
+}
+searchInput.addEventListener("input", function () {
+  searchInput.parentElement.classList.remove("error");
+  clearTimeout(debounceTimer);
+
+  if (searchInput.value.trim() === "") {
+    searchDropdown.classList.remove("show");
+    return;
+  }
+  debounceTimer = setTimeout(function () {
+    performSearch();
+  }, 300);
+});
+
+searchForm.addEventListener("submit", function (event) {
+  event.preventDefault();
+  clearTimeout(debounceTimer);
+  performSearch();
 });
 
 // Search Dropdown: Dismiss on Outside Click
@@ -89,11 +106,6 @@ document.addEventListener("click", function (event) {
   if (!searchWrapper.contains(event.target)) {
     searchDropdown.classList.remove("show");
   }
-});
-
-// Search Input: Clear Validation Error On Typing
-searchInput.addEventListener("input", function () {
-  searchInput.parentElement.classList.remove("error");
 });
 
 // Popular Search Pills: Quick-Filter Input Autofill
@@ -138,7 +150,7 @@ if (doctors.length === 0) {
           <div class="doctor-basic-info">
             <div class="doctor-specialty">${doctor.specialty}</div>
             <h3 class="doctor-name">${doctor.name}</h3>
-            <div class="doctor-rating">⭐ ${doctor.rating}</div>
+            <div class="doctor-rating">${doctor.rating > 0 ? "⭐ " + doctor.rating : "⭐ Newly Registered"}</div>
           </div>
         </div>
         <div class="doctor-card-body">
@@ -152,21 +164,20 @@ if (doctors.length === 0) {
   });
 }
 
-
 // Site Header Navigation: Dynamic Session Controls & Global Logout
-const activeUser = JSON.parse(localStorage.getItem("current_user"))
+const activeUser = JSON.parse(localStorage.getItem("current_user"));
 
-const navActions = document.querySelector(".nav-actions")
+const navActions = document.querySelector(".nav-actions");
 
-if (activeUser){
+if (activeUser) {
   navActions.innerHTML = `
     <a href="dashboard.html" class="btn btn-ghost btn-sm">Dashboard</a>
     <button id="logout-btn" class="btn btn-outline btn-sm">Logout</button>
    
   `;
 
-  document.querySelector("#logout-btn").addEventListener("click", function(){
-    localStorage.removeItem("current_user")
-    window.location.reload()
-  })
+  document.querySelector("#logout-btn").addEventListener("click", function () {
+    localStorage.removeItem("current_user");
+    window.location.reload();
+  });
 }

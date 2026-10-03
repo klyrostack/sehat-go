@@ -164,6 +164,33 @@
               No patient reviews yet. Verified patient ratings will appear here after consultations.
             </p>
           </div>
+
+          <!-- Review Submission Form -->
+          <div id="review-form-wrapper" style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
+            <h3 style="font-size: 1rem; font-weight: 600; margin-bottom: 0.75rem; color: var(--text-main);">
+              Leave a Consultation Feedback
+            </h3>
+            <form id="patient-review-form">
+              <div style="display: flex; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap;">
+                <div style="flex: 1; min-width: 140px;">
+                  <label for="review-rating" style="display: block; font-size: 0.85rem; font-weight: 500; color: var(--text-muted); margin-bottom: 0.35rem;">Rating</label>
+                  <select id="review-rating" class="form-input" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 0.9rem;" required>
+                    <option value="5">⭐⭐⭐⭐⭐ (5 - Exceptional)</option>
+                    <option value="4">⭐⭐⭐⭐ (4 - Very Good)</option>
+                    <option value="3">⭐⭐⭐ (3 - Average)</option>
+                    <option value="2">⭐⭐ (2 - Poor)</option>
+                    <option value="1">⭐ (1 - Terrible)</option>
+                  </select>
+                </div>
+              </div>
+              <div style="margin-bottom: 1rem;">
+                <label for="review-comment" style="display: block; font-size: 0.85rem; font-weight: 500; color: var(--text-muted); margin-bottom: 0.35rem;">Your Feedback / Experience</label>
+                <textarea id="review-comment" class="form-input" rows="3" placeholder="Share your experience with this clinic and doctor..." style="width: 100%; padding: 0.6rem; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 0.9rem; resize: vertical;" required></textarea>
+              </div>
+              <p id="review-form-error" style="color: #ef4444; font-size: 0.85rem; margin-bottom: 0.75rem; display: none;"></p>
+              <button type="submit" class="btn btn-primary btn-sm" style="font-weight: 600;">Submit Review</button>
+            </form>
+          </div>
         </article>
       </div>
 
