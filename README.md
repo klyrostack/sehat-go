@@ -54,8 +54,3 @@ No build tools or package managers required.
    ```bash
    git clone https://github.com/klyrostack/sehat-go.git
    ```
-2. Open the project folder:
-   ```bash
-   cd sehat-go
-   ```
-3. Open `index.html` in any modern web browser, or run with VS Code **Live Server**.
