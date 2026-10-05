@@ -1,13 +1,34 @@
+function safeGetStorage(key, fallback) {
+  try {
+    const rawValue = localStorage.getItem(key);
+    return rawValue ? JSON.parse(rawValue) : fallback;
+  } catch (err) {
+    return fallback;
+  }
+}
+
+function safeSetStorage(key, data) {
+  try {
+    localStorage.setItem(key, JSON.stringify(data));
+    return true;
+  } catch (err) {
+    return false;
+  }
+}
+
 // URL Query Routing: Extract Specialty Parameter & Filter Doctors
 const urlParams = new URLSearchParams(window.location.search);
 
 const selectedCategory = urlParams.get("specialty");
 
-const doctors = JSON.parse(localStorage.getItem("clinic_doctors")) || [];
+const doctors = safeGetStorage("clinic_doctors", []);
 
 const filteredDoctors = selectedCategory
   ? doctors.filter(function (doctor) {
-      return doctor.specialty.toLowerCase() === selectedCategory.toLowerCase();
+      return (
+        (doctor.specialty?.toLowerCase() || "") ===
+        selectedCategory.toLowerCase()
+      );
     })
   : doctors;
 
@@ -17,10 +38,14 @@ const listingContainer = document.querySelector("#doctor-listings-container");
 const categorySubtitle = document.querySelector("#category-subtitle");
 
 // Doctor Cards Renderer: Dynamic Card Grid & Empty State Box
-function renderDoctors(filteredDoctors) {
-  categorySubtitle.textContent = `${filteredDoctors.length} Verified specialist(s) available for appointments`;
+function renderDoctors(doctorList) {
+  if (categorySubtitle) {
+    categorySubtitle.textContent = `${doctorList.length} Verified specialist(s) available for appointments`;
+  }
 
-  if (filteredDoctors.length === 0) {
+  if (!listingContainer) return;
+
+  if (doctorList.length === 0) {
     listingContainer.innerHTML = ` <div class="empty-box">
       <h3>No category Found</h3>
       <p>Try adjusting your search criteria.</p>
@@ -28,20 +53,20 @@ function renderDoctors(filteredDoctors) {
     `;
   } else {
     listingContainer.innerHTML = "";
-    filteredDoctors.forEach(function (doctor) {
+    doctorList.forEach(function (doctor) {
       listingContainer.innerHTML += `
    <article class="doctor-card" data-doctor-id="${doctor.id}" style="cursor: pointer;">
   <!-- The Header Wrapper gives it the proper padding & breathing room! -->
   <div class="doctor-card-header">
     <div class="doctor-basic-info">
-      <div class="doctor-specialty">${doctor.specialty}</div>
-      <h3 class="doctor-name">${doctor.name}</h3>
+      <div class="doctor-specialty">${doctor.specialty ?? "Specialist"}</div>
+      <h3 class="doctor-name">${doctor.name ?? "Doctor"}</h3>
       <div class="doctor-rating">${doctor.rating > 0 ? "⭐ " + doctor.rating : "⭐ Newly Registered"}</div>
     </div>
   </div>
 
   <div class="doctor-card-body">
-    <p>${doctor.clinic} — ${doctor.district}</p>
+    <p>${doctor.clinic ?? "Clinic"} — ${doctor.district ?? "Kashmir"}</p>
   </div>
 
   <div class="doctor-card-footer">
@@ -57,88 +82,101 @@ renderDoctors(filteredDoctors);
 // Category Header: Dynamic Specialty Title & Total Count Sync
 const categoryTitle = document.querySelector("#category-title");
 
-categoryTitle.textContent = `${selectedCategory || "All Doctors"} in Kashmir `;
+if (categoryTitle) {
+  categoryTitle.textContent = `${selectedCategory || "All Doctors"} in Kashmir `;
+}
 
-document.querySelector("#count-all").textContent = filteredDoctors.length;
+const countAll = document.querySelector("#count-all");
+if (countAll) {
+  countAll.textContent = filteredDoctors.length;
+}
 
 // District Filter Pipeline: Extract Unique Districts using Set
-const allDistricts = filteredDoctors.map(function (doctor) {
-  return doctor.district.toLowerCase();
-});
+const allDistricts = filteredDoctors
+  .map(function (doctor) {
+    return doctor.district?.toLowerCase() || "";
+  })
+  .filter(Boolean);
 const uniqueDistricts = [...new Set(allDistricts)];
 
 // Sidebar Filter UI: Generate District Radio Buttons & Badges
 const filterGroup = document.querySelector("#district-filter-group");
 
-uniqueDistricts.forEach(function (district) {
-  const total = filteredDoctors.filter(function (doctors) {
-    return doctors.district.toLowerCase() === district;
-  }).length;
+if (filterGroup) {
+  uniqueDistricts.forEach(function (district) {
+    const total = filteredDoctors.filter(function (doc) {
+      return (doc.district?.toLowerCase() || "") === district;
+    }).length;
 
-  filterGroup.innerHTML += `
+    filterGroup.innerHTML += `
   <label class="filter-option">
     <input type="radio" name="district-fiter" value="${district}">
     <span style="text-transform: capitalize;">${district}</span>
     <span class="count">${total}</span>
   </label>
 `;
-});
+  });
 
-// District Filter Event: Filter Doctor Listings by Selected District
-filterGroup.addEventListener("change", function (event) {
-  const selectedDistrict = event.target.value;
+  // District Filter Event: Filter Doctor Listings by Selected District
+  filterGroup.addEventListener("change", function (event) {
+    const selectedDistrict = event.target.value;
 
-  const matchingDoctors =
-    selectedDistrict === "all"
-      ? filteredDoctors
-      : filteredDoctors.filter(function (doctor) {
-          return (
-            doctor.district.toLowerCase() === selectedDistrict.toLowerCase()
-          );
-        });
-  renderDoctors(matchingDoctors);
-});
+    const matchingDoctors =
+      selectedDistrict === "all"
+        ? filteredDoctors
+        : filteredDoctors.filter(function (doctor) {
+            return (
+              (doctor.district?.toLowerCase() || "") ===
+              selectedDistrict.toLowerCase()
+            );
+          });
+    renderDoctors(matchingDoctors);
+  });
+}
 
 // Sorting Engine: Sort Listings by Rating or Earliest Slot
 const sortDropdown = document.querySelector("#sort-select");
 
-sortDropdown.addEventListener("change", function (event) {
-  const sortDropdown = event.target.value;
-  const sortedDoctors = [...filteredDoctors];
+if (sortDropdown) {
+  sortDropdown.addEventListener("change", function (event) {
+    const sortVal = event.target.value;
+    const sortedDoctors = [...filteredDoctors];
 
-  if (sortDropdown === "rating") {
-    sortedDoctors.sort(function (a, b) {
-      return b.rating - a.rating;
-    });
-  } else if (sortDropdown === "earliest-slot") {
-    sortedDoctors.sort(function (a, b) {
-      return (a.startTime || "").localeCompare(b.startTime || "");
-    });
-  }
-  renderDoctors(sortedDoctors);
-});
+    if (sortVal === "rating") {
+      sortedDoctors.sort(function (a, b) {
+        return (Number(b.rating) || 0) - (Number(a.rating) || 0);
+      });
+    } else if (sortVal === "earliest-slot") {
+      sortedDoctors.sort(function (a, b) {
+        return (a.startTime || "").localeCompare(b.startTime || "");
+      });
+    }
+    renderDoctors(sortedDoctors);
+  });
+}
 
 // Card Navigation: Event Delegation to Open Doctor Profile
-listingContainer.addEventListener("click", function (event) {
-  const clickedCard = event.target.closest(".doctor-card");
-  if (!clickedCard) return;
-  window.location.href = `doctor-profile.html?id=${clickedCard.dataset.doctorId}`;
-});
-
+if (listingContainer) {
+  listingContainer.addEventListener("click", function (event) {
+    const clickedCard = event.target.closest(".doctor-card");
+    if (!clickedCard) return;
+    window.location.href = `doctor-profile.html?id=${clickedCard.dataset.doctorId}`;
+  });
+}
 
 // Site Header Navigation: Dynamic Session Controls & Global Logout
-const activeUser = JSON.parse(localStorage.getItem("current_user"));
+const activeUser = safeGetStorage("current_user", null);
 
 const navActions = document.querySelector(".nav-actions");
 
-if (activeUser) {
+if (activeUser && navActions) {
   navActions.innerHTML = `
     <a href="dashboard.html" class="btn btn-ghost btn-sm">Dashboard</a>
     <button id="logout-btn" class="btn btn-outline btn-sm">Logout</button>
    
   `;
 
-  document.querySelector("#logout-btn").addEventListener("click", function () {
+  document.querySelector("#logout-btn")?.addEventListener("click", function () {
     localStorage.removeItem("current_user");
     window.location.reload();
   });

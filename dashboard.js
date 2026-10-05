@@ -1,27 +1,46 @@
-// Route Guard: Protect Dashboard & Redirect Unauthenticated Visitors
-const activeSession = JSON.parse(localStorage.getItem("current_user"));
+function safeGetStorage(key, fallback) {
+  try {
+    const rawValue = localStorage.getItem(key);
+    return rawValue ? JSON.parse(rawValue) : fallback;
+  } catch (err) {
+    return fallback;
+  }
+}
 
+function safeSetStorage(key, data) {
+  try {
+    localStorage.setItem(key, JSON.stringify(data));
+    return true;
+  } catch (err) {
+    return false;
+  }
+}
+
+// Route Guard: Protect Dashboard & Redirect Unauthenticated Visitors
+const activeSession = safeGetStorage("current_user", null);
 if (!activeSession) {
   window.location.href = "login.html";
 }
+const dashUserName = document.querySelector("#dashboard-user-name");
+dashUserName.textContent = activeSession?.name;
+
 
 // Shared Profile Card: Display User Info, Avatar Initial & Role Badge
-const dashUserName = document.querySelector("#dashboard-user-name");
-dashUserName.textContent = activeSession.name;
 
 const userAvatar = document.querySelector("#user-avatar");
 
-userAvatar.textContent = activeSession.name.charAt(0).toUpperCase();
-
+userAvatar.textContent = activeSession?.name
+  ? activeSession.name.charAt(0).toUpperCase()
+  : "";
 const userBadge = document.querySelector("#user-role-badge");
-
-userBadge.textContent = activeSession.role;
-userBadge.classList.add(activeSession.role);
-
+userBadge.textContent = activeSession?.role;
+if (activeSession?.role) {
+  userBadge.classList.add(activeSession.role);
+}
 const dashUserSubtext = document.querySelector("#dashboard-user-subtext");
 
 dashUserSubtext.textContent =
-  activeSession.clinic || "Verified Patient Account";
+  activeSession?.clinic || "Verified Patient Account";
 
 // Doctor Portal View: Practice Details, Operational Meta & Patient Queue
 if (activeSession.role === "doctor") {
@@ -29,7 +48,7 @@ if (activeSession.role === "doctor") {
   userAvatar.textContent = activeSession.name.charAt(0).toUpperCase();
   dashUserSubtext.textContent = activeSession.clinic;
 
-  const allDoctors = JSON.parse(localStorage.getItem("clinic_doctors")) || [];
+  const allDoctors = safeGetStorage("clinic_doctors", []);
   const currentDoctor = allDoctors.find(function (doc) {
     return doc.name.toLowerCase() === activeSession.name.toLowerCase();
   });
@@ -38,20 +57,22 @@ if (activeSession.role === "doctor") {
   }
 
   document.querySelector("#doctor-pill-specialty").textContent =
-    currentDoctor.specialty;
+    currentDoctor?.specialty ?? "General Practice";
   document.querySelector("#doctor-pill-district").textContent =
-    currentDoctor.district;
+    currentDoctor?.district ?? "District is not set";
   document.querySelector("#doctor-pill-hours").textContent =
-    currentDoctor.startTime
+    currentDoctor?.startTime
       ? `${currentDoctor.startTime} - ${currentDoctor.endTime}`
       : "Hours not set";
   document.querySelector("#doctor-pill-fee").textContent =
-    `${currentDoctor.fee}`;
+    currentDoctor?.fee !== undefined ? "₹" + currentDoctor.fee : "Fee not set";
+
   document.querySelector("#doctor-stat-rating").textContent =
-    `${currentDoctor.rating}`;
+    currentDoctor?.rating
+      ? `⭐ ${currentDoctor.rating}`
+      : "⭐ Newly Registered";
 
-  const allBookings = JSON.parse(localStorage.getItem("patient_booking")) || [];
-
+  const allBookings = safeGetStorage("patient_booking", []);
   const doctorBookings = allBookings.filter(function (booking) {
     return booking.name.toLowerCase() === activeSession.name.toLowerCase();
   });
@@ -110,8 +131,7 @@ if (activeSession.role === "doctor") {
     const targetId = Number(actionBtn.dataset.id);
     const newStatus = actionBtn.dataset.status;
 
-    const allBookings =
-      JSON.parse(localStorage.getItem("patient_booking")) || [];
+    const allBookings = safeGetStorage("patient_booking", []);
 
     const updatedBookings = allBookings.map(function (booking) {
       if (booking.id === targetId) {
@@ -119,12 +139,12 @@ if (activeSession.role === "doctor") {
       }
       return booking;
     });
-    localStorage.setItem("patient_booking", JSON.stringify(updatedBookings));
 
+    safeSetStorage("patient_booking", updatedBookings);
     window.location.reload();
   });
-
   document.querySelector("#doctor-view").style.display = "block";
+
 } else {
   // Patient Portal View: Booked Appointments & Real-Time Cancellation Engine
   dashUserName.textContent = "Patient Portal";
@@ -132,13 +152,12 @@ if (activeSession.role === "doctor") {
   dashUserSubtext.textContent = `${activeSession.name} • Verified Patient Account`;
   document.querySelector("#patient-view").style.display = "block";
 
-  const patientBooking =
-    JSON.parse(localStorage.getItem("patient_booking")) || [];
+  const patientBooking = safeGetStorage("patient_booking", []);
 
   const myBookings = patientBooking.filter(function (entry) {
     return (
       entry.patientName &&
-      entry.patientName.toLowerCase() === activeSession.name.toLowerCase()
+      entry.patientName?.toLowerCase() === activeSession?.name?.toLowerCase()
     );
   });
 
@@ -175,13 +194,15 @@ if (activeSession.role === "doctor") {
       const remaining = patientBooking.filter(function (entry) {
         return entry.id !== targetId;
       });
-      localStorage.setItem("patient_booking", JSON.stringify(remaining));
+
+      safeSetStorage("patient_booking", remaining);
       window.location.reload();
     });
   }
 }
 
 // Dashboard Logout: Clear Session from LocalStorage & Redirect to Login
+
 const logoutBtn = document.querySelector("#dashboard-logout-btn");
 
 logoutBtn.addEventListener("click", function () {
