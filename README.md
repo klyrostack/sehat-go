@@ -10,18 +10,21 @@ Sehat Go is a vanilla JavaScript healthcare platform tailored for Jammu & Kashmi
 sehat-go/
 ├── css/
 │   └── style.css              # Custom styling, design tokens, print-pass media queries
+├── js/
+│   ├── main.js                # 300ms debounced search, dropdown renderer, category counts
+│   ├── category.js            # URL query routing, dynamic district counts, procedures map
+│   ├── profile.js             # Slot time math, booking conflict detection, print pass, review engine
+│   ├── dashboard.js           # Route guards, queue actions (Done/No-Show), live revenue metrics
+│   ├── login.js               # Role verification, patient registration, session persistence
+│   └── register.js            # Dual-mode form (Create/Edit), operating hours validation
+├── data/
+│   └── doctors.json           # Initial clinic catalog fetched asynchronously via Fetch API
 ├── index.html                 # Homepage with hero search and featured clinics
-├── main.js                    # 300ms debounced search, dropdown renderer, session navbar
 ├── category.html              # Clinic browse directory with district filter sidebar
-├── category.js                # URL query routing, dynamic district counts, rating sorting
 ├── doctor-profile.html        # Doctor details, slot booking widget, reviews & modal
-├── profile.js                 # Slot time math, booking conflict detection, print pass, review engine
 ├── dashboard.html             # Role-based dashboard (Doctor Portal & Patient Portal)
-├── dashboard.js               # Route guards, queue actions (Done/No-Show), live revenue metrics
 ├── login.html                 # Dual-role authentication interface (Doctor & Patient)
-├── login.js                   # Role verification, patient registration, session persistence
-├── register.html              # Practice registration and clinic profile editor
-└── register.js                # Dual-mode form (Create/Edit), operating hours validation
+└── register.html              # Practice registration and clinic profile editor
 ```
 
 ---

@@ -25,10 +25,12 @@ const doctors = safeGetStorage("clinic_doctors", []);
 
 const filteredDoctors = selectedCategory
   ? doctors.filter(function (doctor) {
-      return (
-        (doctor.specialty?.toLowerCase() || "") ===
-        selectedCategory.toLowerCase()
-      );
+     const docSpec = doctor.specialty?.toLowerCase() || "";
+     const cat = selectedCategory.toLowerCase();
+     return (
+       docSpec === cat ||
+       (docSpec.length >= 4 && docSpec.slice(0, 5) === cat.slice(0, 5))
+     );
     })
   : doctors;
 
@@ -83,12 +85,87 @@ renderDoctors(filteredDoctors);
 const categoryTitle = document.querySelector("#category-title");
 
 if (categoryTitle) {
+  const breadcrumbCategory = document.querySelector(
+    ".breadcrumb span:last-child",
+  );
+  if (breadcrumbCategory) {
+    breadcrumbCategory.textContent = selectedCategory || "All Doctors";
+  }
   categoryTitle.textContent = `${selectedCategory || "All Doctors"} in Kashmir `;
+  document.title = `${selectedCategory || "All Doctors"} in Kashmir — Sehat Go`;
 }
 
 const countAll = document.querySelector("#count-all");
 if (countAll) {
   countAll.textContent = filteredDoctors.length;
+}
+
+// Sidebar Procedures Filter: Complete 8-Specialty Clinical Services
+const proceduresMap = {
+  dentist: {
+    title: "Dental Procedures",
+    items: ["Orthodontics (Braces)", "Root Canal (Endodontics)", "Dental Implants", "Teeth Cleaning & Whitening"],
+  },
+  cardiologist: {
+    title: "Cardiac Services",
+    items: ["12-Lead ECG", "Echocardiogram (Echo)", "Hypertension & BP Care", "Preventive Heart Checkup"],
+  },
+  dermatologist: {
+    title: "Skin & Hair Care",
+    items: ["Acne & Scar Therapy", "Laser Skin Treatment", "Hair Fall & PRP Therapy", "Skin Allergy Diagnostics"],
+  },
+  pediatrician: {
+    title: "Child Care Services",
+    items: ["Pediatric Vaccination", "Newborn Wellness Checkup", "Growth & Milestone Assessment", "Child Nutrition Consultation"],
+  },
+  orthopedic: {
+    title: "Bone & Joint Care",
+    items: ["Joint Pain & Arthritis Care", "Fracture & Trauma Management", "Spine & Back Pain Clinic", "Sports Injury Rehabilitation"],
+  },
+  "general physician": {
+    title: "Primary Health Services",
+    items: ["Fever & Infection Care", "Diabetes & Lifestyle Management", "Comprehensive Health Checkup", "Hypertension & Chronic Care"],
+  },
+  "general-physician": {
+    title: "Primary Health Services",
+    items: ["Fever & Infection Care", "Diabetes & Lifestyle Management", "Comprehensive Health Checkup", "Hypertension & Chronic Care"],
+  },
+  "ent specialist": {
+    title: "Ear, Nose & Throat Services",
+    items: ["Hearing Assessment & Audiometry", "Chronic Sinusitis Treatment", "Ear Infection & Microsuction", "Throat & Tonsil Care"],
+  },
+  ent: {
+    title: "Ear, Nose & Throat Services",
+    items: ["Hearing Assessment & Audiometry", "Chronic Sinusitis Treatment", "Ear Infection & Microsuction", "Throat & Tonsil Care"],
+  },
+  neurologist: {
+    title: "Neurological Care",
+    items: ["Migraine & Chronic Headache Care", "Nerve Conduction & EMG", "Epilepsy & Seizure Management", "Stroke Recovery Consultation"],
+  },
+};
+
+const proceduresGroup = document.querySelector("#procedures-filter-group");
+const currentKey = selectedCategory?.toLowerCase().trim();
+const matchedConfig = proceduresMap[currentKey];
+
+if (proceduresGroup) {
+  if (matchedConfig) {
+    proceduresGroup.style.display = "block";
+    let html = `<h4 class="filter-title">${matchedConfig.title}</h4>`;
+    matchedConfig.items.forEach(function (item) {
+      html += `
+        <label class="filter-option">
+          <input type="checkbox">
+          <span>${item}</span>
+          <span class="count">0</span>
+        </label>
+      `;
+    });
+    proceduresGroup.innerHTML = html;
+  } else {
+    // Hides cleanly when browsing "All Doctors"
+    proceduresGroup.style.display = "none";
+  }
 }
 
 // District Filter Pipeline: Extract Unique Districts using Set

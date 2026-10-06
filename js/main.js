@@ -153,33 +153,30 @@ popularTags.forEach(function (tag) {
   });
 });
 
+async function loadInitialClinics() {
+  try {
+    const response = await fetch("data/doctors.json");
+    const data = await response.json();
+    safeSetStorage("clinic_doctors", data);
+    renderFeaturedDoctors(data);
+    updateCategoryCounts(data);
+  } catch (error) {
+    return [];
+
+  }
+}
+
 // Featured Doctors Section: Top 3 Rated Clinics & Empty State Banner
 const doctorGrid = document.querySelector(".doctor-grid");
 const doctors = safeGetStorage("clinic_doctors", []);
-
-if (doctorGrid) {
-  if (doctors.length === 0) {
-    doctorGrid.innerHTML = `
-  <div style="grid-column: 1 / -1; text-align: center; padding: 3rem 1.5rem; background: #ffffff; border: 2px dashed #cbd5e1; border-radius: 1rem;">
-    <div style="font-size: 2.5rem; margin-bottom: 1rem;">🏥</div>
-    <h3 style="font-size: 1.25rem; font-weight: 700; color: #0f172a; margin-bottom: 0.5rem;">
-      No Private Clinics Listed Yet
-    </h3>
-    <p style="color: #64748b; max-width: 480px; margin: 0 auto 1.5rem auto; font-size: 0.95rem;">
-      We are actively onboarding verified doctors across the Valley. Are you a private medical practitioner in Kashmir?
-    </p>
-    <a href="register.html" class="btn btn-primary btn-md">
-      Register Your Clinic Today
-    </a>
-  </div>`;
-  } else {
-    const sortedDoctors = [...doctors].sort(function (a, b) {
-      return (Number(b.rating) || 0) - (Number(a.rating) || 0);
-    });
-    const featuredDoctors = sortedDoctors.slice(0, 3);
-    doctorGrid.innerHTML = "";
-    featuredDoctors.forEach(function (doctor) {
-      doctorGrid.innerHTML += `
+function renderFeaturedDoctors(doctorList) {
+  const sortedDoctors = [...doctorList].sort(function (a, b) {
+    return (Number(b.rating) || 0) - (Number(a.rating) || 0);
+  });
+  const featuredDoctors = sortedDoctors.slice(0, 3);
+  doctorGrid.innerHTML = "";
+  featuredDoctors.forEach(function (doctor) {
+    doctorGrid.innerHTML += `
       <article class="doctor-card">
         <div class="doctor-card-header">
           <div class="doctor-basic-info">
@@ -196,9 +193,42 @@ if (doctorGrid) {
         </div>
       </article>
     `;
-    });
+  });
+}
+
+if (doctorGrid) {
+  if (doctors.length === 0) {
+    loadInitialClinics();
+  } else {
+    renderFeaturedDoctors(doctors);
+    updateCategoryCounts(doctors);
   }
 }
+
+// category doctor count
+
+function updateCategoryCounts(doctorList){
+  const categoryCards = document.querySelectorAll(".category-card")
+  categoryCards.forEach(function(card){
+    const categoryName = card.querySelector(".category-name")?.textContent.trim()
+
+    const count = doctorList.filter(function(doc){
+       const docSpec = doc.specialty?.toLowerCase() || "";
+       const cat = categoryName?.toLowerCase() || "";
+        return (
+          docSpec === cat ||
+          (docSpec.length >= 4 && docSpec.slice(0, 5) === cat.slice(0, 5))
+        );
+    }).length;
+
+    const countSpan = card.querySelector(".category-count")
+    if(countSpan){
+      countSpan.textContent = `${count} Clinics Available`;
+    }
+  })
+  
+}
+
 
 // Site Header Navigation: Dynamic Session Controls & Global Logout
 const activeUser = safeGetStorage("current_user", null);

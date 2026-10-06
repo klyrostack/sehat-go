@@ -1,0 +1,44 @@
+[
+  {
+    "id": 101,
+    "name": "Dr. Aamir Khan",
+    "specialty": "Cardiologist",
+    "clinic": "Noor Heart Care",
+    "district": "Srinagar",
+    "fee": 600,
+    "startTime": "10:00",
+    "endTime": "16:00",
+    "slotDuration": 30,
+    "rating": 4.8,
+    "reviews": [],
+    "reviewCount": 12
+  },
+  {
+    "id": 102,
+    "name": "Dr. Saba Mir",
+    "specialty": "Pediatrician",
+    "clinic": "Care Children Clinic",
+    "district": "Anantnag",
+    "fee": 500,
+    "startTime": "11:00",
+    "endTime": "15:00",
+    "slotDuration": 20,
+    "rating": 4.9,
+    "reviews": [],
+    "reviewCount": 18
+  },
+  {
+    "id": 103,
+    "name": "Dr. Zubair Lone",
+    "specialty": "Orthopedic",
+    "clinic": "Valley Bone & Joint",
+    "district": "Baramulla",
+    "fee": 550,
+    "startTime": "09:30",
+    "endTime": "14:30",
+    "slotDuration": 30,
+    "rating": 4.6,
+    "reviews": [],
+    "reviewCount": 9
+  }
+]
