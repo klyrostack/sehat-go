@@ -1,0 +1,23 @@
+{
+  "name": "project-clinic-finder",
+  "version": "1.0.0",
+  "description": "Sehat Go is a vanilla JavaScript healthcare platform tailored for Jammu & Kashmir. It enables patients to find verified private clinics across districts, book time slots with conflict detection, and generate printable appointment passes, while providing doctors with a dedicated management portal to run patient queues and monitor practice earnings.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/klyrostack/sehat-go.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/klyrostack/sehat-go/issues"
+  },
+  "homepage": "https://github.com/klyrostack/sehat-go#readme",
+  "devDependencies": {
+    "typescript": "^7.0.2"
+  }
+}
