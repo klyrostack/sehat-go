@@ -407,3 +407,52 @@ function renderDoctorReviews(): void {
   }
 }
 renderDoctorReviews();
+
+// Review Form Submission & LocalStorage Persistence
+const reviewForm = document.querySelector("#patient-review-form") as HTMLFormElement | null;
+if (reviewForm) {
+  reviewForm.addEventListener("submit", function (event: SubmitEvent) {
+    event.preventDefault();
+
+    const ratingInput = document.querySelector("#review-rating") as HTMLSelectElement | null;
+    const commentInput = document.querySelector("#review-comment") as HTMLTextAreaElement | null;
+    const errorBox = document.querySelector("#review-form-error") as HTMLElement | null;
+
+    const rating: number = Number(ratingInput?.value || 5);
+    const comment: string = commentInput ? commentInput.value.trim() : "";
+
+    if (comment === "") {
+      if (errorBox) {
+        errorBox.textContent = "Please write a brief feedback comment!";
+        errorBox.style.display = "block";
+      }
+      return;
+    } else {
+      if (errorBox) {
+        errorBox.style.display = "none";
+      }
+    }
+
+    const reviewerName: string = activeUser?.name || "Verified Patient";
+
+    const newReview: DoctorReview = {
+      id: Date.now(),
+      doctorId: matchedDoctor?.id,
+      patientName: reviewerName,
+      rating: rating,
+      comment: comment,
+      date: new Date().toLocaleDateString("en-IN", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      }),
+    };
+    const allReviews: DoctorReview[] = safeGetStorage("clinic_reviews", []);
+    allReviews.unshift(newReview);
+
+    safeSetStorage("clinic_reviews", allReviews);
+
+    renderDoctorReviews();
+    reviewForm.reset();
+  });
+}
