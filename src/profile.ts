@@ -166,3 +166,41 @@ const endHours: number = Number(endParts[0]) || 0;
 const endMinutes: number = Number(endParts[1]) || 0;
 
 const endTotalMinutes: number = endHours * 60 + endMinutes;
+
+// Time Slot Engine: Render Available & Booked Morning/Evening Slots
+const morningSlots = document.querySelector("#morning-slots") as HTMLElement | null;
+const eveningSlots = document.querySelector("#evening-slots") as HTMLElement | null;
+
+interface SavedBooking {
+  id: number;
+  name: string;
+  patientName: string;
+  clinic: string;
+  fee: number;
+  date: string;
+  time: string;
+  status: string;
+}
+
+function renderSlots(): void {
+  if (!morningSlots || !eveningSlots) return;
+  morningSlots.innerHTML = "";
+  eveningSlots.innerHTML = "";
+  const savedBookings: SavedBooking[] = safeGetStorage("patient_booking", []);
+  for (let i = startTotalMinutes; i < endTotalMinutes; i += slotDuration) {
+    const slotTime: string = formatTime(i);
+    const isBooked: boolean = savedBookings.some(function (booking: SavedBooking) {
+      return (
+        booking.name === matchedDoctor?.name &&
+        booking.date === selectedDate &&
+        booking.time === slotTime
+      );
+    });
+    if (i < 720) {
+      morningSlots.innerHTML += `<span class="time-slot ${isBooked ? "booked" : "available"}">${slotTime}</span>`;
+    } else {
+      eveningSlots.innerHTML += `<span class="time-slot ${isBooked ? "booked" : "available"}">${slotTime}</span>`;
+    }
+  }
+}
+renderSlots();
