@@ -335,3 +335,75 @@ if (activeUser && navActions) {
     window.location.reload();
   });
 }
+
+// Patient Reviews Engine: Aggregate Rating & Render Reviews
+interface DoctorReview {
+  id: number;
+  doctorId: number | undefined;
+  patientName: string;
+  rating: number;
+  comment: string;
+  date: string;
+}
+
+function renderDoctorReviews(): void {
+  const allReviews: DoctorReview[] = safeGetStorage("clinic_reviews", []);
+
+  const doctorReviews = allReviews.filter(function (review: DoctorReview) {
+    return review.doctorId === matchedDoctor?.id;
+  });
+  const ratingEl = document.querySelector("#doctor-rating") as HTMLElement | null;
+  const countBadgeEl = document.querySelector("#reviews-count-badge") as HTMLElement | null;
+  const reviewsContainer = document.querySelector("#reviews-container") as HTMLElement | null;
+
+  if (doctorReviews.length > 0) {
+    const reviewsSum: number = doctorReviews.reduce(function (accumulator: number, current: DoctorReview) {
+      return accumulator + Number(current.rating || 0);
+    }, 0);
+    const avgRating: string = (reviewsSum / doctorReviews.length).toFixed(1);
+    if (ratingEl) {
+      ratingEl.textContent = `⭐${avgRating} (${doctorReviews.length} Reviews)`;
+    }
+    if (countBadgeEl) {
+      countBadgeEl.textContent = `${doctorReviews.length} Reviews`;
+    }
+
+    const allDoctors: Doctor[] = safeGetStorage("clinic_doctors", []);
+
+    const docIndex: number = allDoctors.findIndex(function (doc: Doctor) {
+      return doc.id === matchedDoctor?.id;
+    });
+
+    if (docIndex !== -1 && allDoctors[docIndex]) {
+      allDoctors[docIndex].rating = Number(avgRating);
+      safeSetStorage("clinic_doctors", allDoctors);
+    }
+
+    if (reviewsContainer) {
+      reviewsContainer.innerHTML = "";
+      doctorReviews.forEach(function (rev: DoctorReview) {
+        reviewsContainer.innerHTML += `
+          <div style="padding: 1rem; border-bottom: 1px solid var(--border); margin-bottom: 0.75rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+              <strong style="color: var(--text-main);">${rev.patientName ?? "Verified Patient"}</strong>
+              <span style="color: var(--accent); font-weight: 600;">⭐ ${rev.rating}.0</span>
+            </div>
+            <p style="margin: 0.25rem 0 0.5rem 0; color: var(--text-body); font-size: 0.95rem;">${rev.comment ?? ""}</p>
+            <small style="color: var(--text-muted); font-size: 0.8rem;">📅 ${rev.date ?? ""}</small>
+          </div>
+        `;
+      });
+    }
+  } else {
+    if (ratingEl) ratingEl.textContent = "⭐ Newly Registered";
+    if (countBadgeEl) countBadgeEl.textContent = "0 Reviews";
+    if (reviewsContainer) {
+      reviewsContainer.innerHTML = `
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0; padding: 1.5rem; background: var(--bg-subtle); border-radius: var(--radius-md); text-align: center;">
+          No patient reviews yet. Verified patient ratings will appear here after consultations.
+        </p>
+      `;
+    }
+  }
+}
+renderDoctorReviews();
