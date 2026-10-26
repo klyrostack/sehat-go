@@ -204,3 +204,25 @@ function renderSlots(): void {
   }
 }
 renderSlots();
+
+// Slot Selection Handler: Select Time Slot & Update Booking Summary
+function handleSlotClick(event: MouseEvent): void {
+  const target = event.target as HTMLElement | null;
+  const clickedSlot = target?.closest(".time-slot.available") as HTMLElement | null;
+  if (!clickedSlot) return;
+  const allTimes = document.querySelectorAll(".time-slot");
+
+  allTimes.forEach(function (time) {
+    time.classList.remove("selected");
+  });
+  clickedSlot.classList.add("selected");
+
+  selectedTime = clickedSlot.textContent?.trim() || null;
+
+  const summaryDateTime = document.querySelector("#summary-datetime") as HTMLElement | null;
+  if (summaryDateTime) {
+    summaryDateTime.textContent = `${selectedDate} ${selectedTime}`;
+  }
+}
+if (morningSlots) morningSlots.addEventListener("click", handleSlotClick);
+if (eveningSlots) eveningSlots.addEventListener("click", handleSlotClick);
