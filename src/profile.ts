@@ -139,3 +139,30 @@ if (previousDateBtn) {
     }
   });
 }
+
+// Time Formatting Utility: Convert Total Minutes to 12-Hour AM/PM String
+function formatTime(totalMinutes: number): string {
+  const hours: number = Math.floor(totalMinutes / 60);
+  const minutes: number = totalMinutes % 60;
+  const period: string = hours >= 12 ? "PM" : "AM";
+  const displayHours: number = hours % 12 === 0 ? 12 : hours % 12;
+  const displayMinutes: string = minutes < 10 ? "0" + minutes : String(minutes);
+  return `${displayHours}:${displayMinutes} ${period}`;
+}
+
+// Working Hours Parser: Compute Schedule Start & End Minutes
+const startTime: string = matchedDoctor?.startTime || "10:00";
+const endTime: string = matchedDoctor?.endTime || "14:00";
+const slotDuration: number = matchedDoctor?.slotDuration || 30;
+
+const startParts: string[] = startTime.split(":");
+const startHours: number = Number(startParts[0]) || 0;
+const startMinutes: number = Number(startParts[1]) || 0;
+
+const startTotalMinutes: number = startHours * 60 + startMinutes;
+
+const endParts: string[] = endTime.split(":");
+const endHours: number = Number(endParts[0]) || 0;
+const endMinutes: number = Number(endParts[1]) || 0;
+
+const endTotalMinutes: number = endHours * 60 + endMinutes;
