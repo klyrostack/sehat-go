@@ -306,3 +306,32 @@ if (appointmentBtn) {
     selectedTime = null;
   });
 }
+
+// Modal Close Button & Print API Handlers
+document
+  .querySelector("#modal-close-btn")
+  ?.addEventListener("click", function () {
+    const modal = document.querySelector("#booking-confirmation-modal") as HTMLElement | null;
+    if (modal) modal.style.display = "none";
+  });
+
+document
+  .querySelector("#btn-print-pass")
+  ?.addEventListener("click", function () {
+    window.print();
+  });
+
+// Site Header Navigation: Dynamic Session Controls & Global Logout
+const navActions = document.querySelector(".nav-actions") as HTMLElement | null;
+
+if (activeUser && navActions) {
+  navActions.innerHTML = `
+    <a href="dashboard.html" class="btn btn-ghost btn-sm">Dashboard</a>
+    <button id="logout-btn" class="btn btn-outline btn-sm">Logout</button>
+  `;
+
+  document.querySelector("#logout-btn")?.addEventListener("click", function () {
+    localStorage.removeItem("current_user");
+    window.location.reload();
+  });
+}
