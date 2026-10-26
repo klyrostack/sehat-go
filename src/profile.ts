@@ -226,3 +226,83 @@ function handleSlotClick(event: MouseEvent): void {
 }
 if (morningSlots) morningSlots.addEventListener("click", handleSlotClick);
 if (eveningSlots) eveningSlots.addEventListener("click", handleSlotClick);
+
+// Appointment Booking Action: Persist Booking to LocalStorage & Mark Slot Booked
+const bookingMsg = document.querySelector("#booking-msg") as HTMLElement | null;
+const appointmentBtn = document.querySelector("#btn-book-appointment") as HTMLElement | null;
+
+if (appointmentBtn) {
+  appointmentBtn.addEventListener("click", function () {
+    if (!activeUser) {
+      if (bookingMsg) {
+        bookingMsg.style.color = "#ef4444";
+        bookingMsg.textContent = "Please log in to book an appointment!";
+      }
+      window.location.href = "login.html";
+      return;
+    }
+    if (!selectedTime) {
+      if (bookingMsg) {
+        bookingMsg.style.color = "#ef4444";
+        bookingMsg.textContent = "Please select a time slot first!";
+      }
+      return;
+    } else {
+      if (bookingMsg) {
+        bookingMsg.style.color = "#10b981";
+        bookingMsg.textContent = "Appointment Confirmed";
+      }
+
+      const clinicAppointments: SavedBooking[] = safeGetStorage("patient_booking", []);
+
+      const newAppointment: SavedBooking = {
+        id: Date.now(),
+        name: matchedDoctor?.name ?? "Doctor",
+        patientName: activeUser?.name ?? "Patient",
+        clinic: matchedDoctor?.clinic ?? "Clinic",
+        fee: matchedDoctor?.fee ?? 0,
+        date: selectedDate,
+        time: selectedTime,
+        status: "confirmed",
+      };
+      clinicAppointments.push(newAppointment);
+      safeSetStorage("patient_booking", clinicAppointments);
+
+      const tokenId: string = "SG-" + String(newAppointment.id).slice(-5);
+
+      const passTokenId = document.querySelector("#pass-token-id") as HTMLElement | null;
+      if (passTokenId) passTokenId.textContent = tokenId;
+      const passDocName = document.querySelector("#pass-doctor-name") as HTMLElement | null;
+      if (passDocName) passDocName.textContent = newAppointment.name;
+
+      const passDocSpec = document.querySelector("#pass-doctor-specialty") as HTMLElement | null;
+      if (passDocSpec) passDocSpec.textContent = matchedDoctor?.specialty ?? "";
+      const passPatientName = document.querySelector("#pass-patient-name") as HTMLElement | null;
+      if (passPatientName) passPatientName.textContent = newAppointment.patientName;
+
+      const passDateTime = document.querySelector("#pass-datetime") as HTMLElement | null;
+      if (passDateTime) passDateTime.textContent = ` ${newAppointment.date}  ${newAppointment.time}`;
+
+      const passClinicName = document.querySelector("#pass-clinic-name") as HTMLElement | null;
+      if (passClinicName) passClinicName.textContent = newAppointment.clinic;
+
+      const passClinicDistrict = document.querySelector("#pass-clinic-district") as HTMLElement | null;
+      if (passClinicDistrict) passClinicDistrict.textContent = matchedDoctor?.district ?? "";
+
+      const passFee = document.querySelector("#pass-consultation-fee") as HTMLElement | null;
+      if (passFee) passFee.textContent = `₹${newAppointment.fee}`;
+
+      const modal = document.querySelector("#booking-confirmation-modal") as HTMLElement | null;
+      if (modal) modal.style.display = "flex";
+    }
+
+    const activeSlot = document.querySelector(".time-slot.selected") as HTMLElement | null;
+
+    if (activeSlot) {
+      activeSlot.classList.remove("selected", "available");
+      activeSlot.classList.add("booked");
+    }
+
+    selectedTime = null;
+  });
+}
