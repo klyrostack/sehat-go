@@ -18,3 +18,29 @@ export interface Doctor {
   reviews: string[];
   reviewCount: number;
 }
+
+export interface UserSession {
+  name: string;
+  role: "doctor" | "patient";
+  clinic?: string;
+  id?: number;
+  identifier?: string;
+}
+
+export interface PatientRecord {
+  id: number;
+  name: string;
+  identifier: string;
+  password?: string;
+}
+
+export interface Booking {
+  id: number;
+  name: string;
+  patientName: string;
+  clinic: string;
+  fee: number;
+  date: string;
+  time: string;
+  status: "confirmed" | "completed" | "cancelled" | string;
+}
