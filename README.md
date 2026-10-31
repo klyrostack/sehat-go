@@ -1,59 +1,75 @@
-# 🏥 Sehat Go — Clinic Locator & Doctor Appointment Platform
+# Sehat Go — Healthcare Clinic Finder & Appointment Platform
 
-Sehat Go is a vanilla JavaScript healthcare platform tailored for Jammu & Kashmir. It enables patients to find verified private clinics across districts, book time slots with conflict detection, and generate printable appointment passes, while providing doctors with a dedicated management portal to run patient queues and monitor practice earnings.
+A client-side healthcare platform tailored for private clinics and patients across Jammu & Kashmir. The platform handles clinic discovery, conflict-free appointment slot booking, dual-role access (Doctor/Patient), and practice analytics.
+
+Originally built in Vanilla JavaScript, the entire application has been migrated to strict, type-safe TypeScript compiled to native ES6 browser modules.
+
+**Live Deployment:** [sehat-go.vercel.app](https://sehat-go.vercel.app)
 
 ---
 
-## 🏛️ Project Architecture
+## Architecture & Directory Structure
 
 ```
 sehat-go/
 ├── css/
-│   └── style.css              # Custom styling, design tokens, print-pass media queries
-├── js/
-│   ├── main.js                # 300ms debounced search, dropdown renderer, category counts
-│   ├── category.js            # URL query routing, dynamic district counts, procedures map
-│   ├── profile.js             # Slot time math, booking conflict detection, print pass, review engine
-│   ├── dashboard.js           # Route guards, queue actions (Done/No-Show), live revenue metrics
-│   ├── login.js               # Role verification, patient registration, session persistence
-│   └── register.js            # Dual-mode form (Create/Edit), operating hours validation
+│   └── style.css              # Custom styling, CSS grid/flexbox, print stylesheets
+├── src/                       # TypeScript Source Files (Strict Mode)
+│   ├── types.ts               # Master contracts (Doctor, Appointment, UserSession, etc.)
+│   ├── storage.ts             # Safe web storage service with try/catch serialization
+│   ├── main.ts                # 300ms search debouncer, dropdown renderer, category counts
+│   ├── category.ts            # URL query routing, dynamic district faceting, procedures dictionary
+│   ├── profile.ts             # Slot arithmetic, conflict checks, print pass, review engine
+│   ├── dashboard.ts           # Dual-portal router, doctor queue, revenue aggregator
+│   ├── register.ts            # Clinic onboarding, operating hours validation, edit-mode
+│   └── login.ts               # Tab switcher, password verification, session persistence
+├── js/                        # Compiled Production JavaScript (ES6 Modules)
+│   ├── types.js
+│   ├── storage.js
+│   ├── main.js
+│   ├── category.js
+│   ├── profile.js
+│   ├── dashboard.js
+│   ├── register.js
+│   └── login.js
 ├── data/
-│   └── doctors.json           # Initial clinic catalog fetched asynchronously via Fetch API
+│   └── doctors.json           # Seed catalog loaded asynchronously via Fetch API
 ├── index.html                 # Homepage with hero search and featured clinics
-├── category.html              # Clinic browse directory with district filter sidebar
-├── doctor-profile.html        # Doctor details, slot booking widget, reviews & modal
-├── dashboard.html             # Role-based dashboard (Doctor Portal & Patient Portal)
-├── login.html                 # Dual-role authentication interface (Doctor & Patient)
-└── register.html              # Practice registration and clinic profile editor
+├── category.html              # Browse directory with district sidebar filtering
+├── doctor-profile.html        # Doctor details, slot booking slider, review submission
+├── dashboard.html             # Role-based dashboard (Doctor Queue / Patient Appointments)
+├── login.html                 # Authentication interface (Doctor & Patient tabs)
+├── register.html              # Clinic registration & schedule configuration
+├── package.json               # Project manifest and build scripts
+└── tsconfig.json              # TypeScript compiler configuration (ES6, DOM)
 ```
 
 ---
 
-## ⚡ Core Engineering & Features
+## Core Technical Engines
 
-- **Real-Time Search Debouncing (`main.js`):** Modular `performSearch()` pipeline with an asynchronous 300ms delay via `setTimeout` and `clearTimeout`. Eliminates laggy DOM re-renders while typing, with an instant bypass on Enter.
-- **Dynamic Slot Booking & Pass Generation (`profile.js`):** Pure minute-based time engine (`formatTime`) converting schedules into 12-hour slots. Checks existing bookings via `Array.some()` to prevent double-booking, and builds printable single-page confirmation passes using `window.print()`.
-- **Review & Rolling Rating Engine (`profile.js`):** Computes live average ratings using `Array.reduce()` and `toFixed(1)`. Automatically synchronizes newly submitted reviews back to the global doctor directory.
-- **Doctor Practice Analytics & Queue Management (`dashboard.js`):** Aggregates consultation earnings in real time while excluding cancelled visits. Includes queue lifecycle actions (`Done` / `No-Show`) with immutable state updates.
-- **Dual-Mode Clinic Profile Editor (`register.js`):** Automatically pre-hydrates doctor data for authenticated users to update hours, fees, and specialties in-place using `Array.findIndex()` and object spread syntax.
-- **Defensive Error Handling:** Standardized `safeGetStorage()` and `safeSetStorage()` helpers wrapped in `try...catch` blocks to protect against malformed JSON, storage quota limits, and null properties using optional chaining (`?.`) and nullish coalescing (`??`).
-
----
-
-## 🛠️ Tech Stack
-
-- **Markup:** HTML5 (semantic layout, accessible form controls, modals)
-- **Styling:** Custom CSS3 (Flexbox, CSS Grid, custom properties, print stylesheets)
-- **Scripting:** Pure Vanilla JavaScript (ES6+, DOM APIs, Web Storage, single-threaded timing)
-- **No external frameworks or libraries.**
+- **Master Type Contracts (`src/types.ts`):** Centralized interfaces (`Doctor`, `Appointment`, `UserSession`, `PatientRecord`, `Booking`) enforce compile-time safety across all modules, eliminating runtime property lookup errors.
+- **Search Debouncing (`src/main.ts`):** 300ms timer pipeline (`setTimeout` / `clearTimeout`) throttling live search queries across clinic name, specialty, and district without unnecessary DOM repaints.
+- **Slot Arithmetic & Conflict Engine (`src/profile.ts`):** Generates 12-hour consultation slots from doctor operating hours using integer time division and modulo arithmetic. Uses `Array.prototype.some()` to prevent double-booking on specific calendar dates.
+- **Single-Page Printable Pass (`src/profile.ts`):** Formats dynamic booking receipts using the native `window.print()` API paired with `@media print` CSS rules that suppress browser navigation headers and footers.
+- **Live Revenue Aggregator (`src/dashboard.ts`):** Computes estimated doctor earnings dynamically using `Array.prototype.reduce()`, enforcing numeric casting and excluding cancelled visits.
+- **Defensive Storage Service (`src/storage.ts`):** Generic helper functions (`safeGetStorage<T>`, `safeSetStorage<T>`) wrapped in `try...catch` blocks to defend against quota exhaustion and malformed JSON payloads.
 
 ---
 
-## 🚀 Running Locally
+## Tech Stack
 
-No build tools or package managers required.
+- **Source Language:** TypeScript (Strict Mode, DOM & ES6 targets)
+- **Runtime:** Native browser ES6 Modules (`<script type="module">`)
+- **Markup:** Semantic HTML5
+- **Styling:** Vanilla CSS3 (Custom properties, Flexbox, Grid, Media Queries)
+- **Persistence:** Web Storage API (`localStorage`)
+- **Hosting & CI/CD:** Vercel
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/klyrostack/sehat-go.git
-   ```
+---
+
+## Project Roadmap
+
+- [x] **Phase 1: Core Architecture (Vanilla JS):** Built search engine, booking pipeline, dual-role dashboard, and responsive UI from scratch.
+- [x] **Phase 2: TypeScript Migration:** 100% of codebase migrated to TypeScript with master data contracts, modular ES6 builds, and 0 compiler errors.
+- [ ] **Phase 3: React + TypeScript Migration:** Refactoring static HTML pages and imperative DOM scripts into reusable, state-driven React components.
