@@ -223,6 +223,7 @@ popularTags.forEach(function (tag) {
       searchInput.value = tag.textContent?.trim() || "";
       searchInput.parentElement?.classList.remove("error");
       searchInput.focus();
+      performSearch();
     }
   });
 });
