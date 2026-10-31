@@ -1,4 +1,4 @@
-var _a, _b, _c, _d, _e, _f;
+var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
 import { safeGetStorage, safeSetStorage } from "./storage.js";
 // Registration Form: DOM Selector
 const formSubmit = document.querySelector("form");
@@ -37,6 +37,21 @@ if (activeSession && activeSession.role === "doctor") {
                 currentRecord.slotDuration !== undefined
                     ? String(currentRecord.slotDuration)
                     : "30";
+        const qual = document.querySelector("#qualifications");
+        if (qual)
+            qual.value = (_g = currentRecord.qualifications) !== null && _g !== void 0 ? _g : "";
+        const reg = document.querySelector("#council-reg");
+        if (reg)
+            reg.value = (_h = currentRecord.councilReg) !== null && _h !== void 0 ? _h : "";
+        const phone = document.querySelector("#phone");
+        if (phone)
+            phone.value = (_j = currentRecord.phone) !== null && _j !== void 0 ? _j : "";
+        const mail = document.querySelector("#email");
+        if (mail)
+            mail.value = (_k = currentRecord.email) !== null && _k !== void 0 ? _k : "";
+        const addr = document.querySelector("#clinic-address");
+        if (addr)
+            addr.value = (_l = currentRecord.address) !== null && _l !== void 0 ? _l : "";
         const submitBtn = document.querySelector("button[type='submit']");
         if (submitBtn) {
             submitBtn.textContent = "Save Clinic Changes";
@@ -58,6 +73,16 @@ if (formSubmit) {
         const doctorDistrict = (doctorDistrictInput === null || doctorDistrictInput === void 0 ? void 0 : doctorDistrictInput.value.trim()) || "";
         const doctorFeeInput = document.querySelector("#consultation-fee");
         const doctorFee = (doctorFeeInput === null || doctorFeeInput === void 0 ? void 0 : doctorFeeInput.value.trim()) || "0";
+        const doctorQualificationsInput = document.querySelector("#qualifications");
+        const doctorQualifications = (doctorQualificationsInput === null || doctorQualificationsInput === void 0 ? void 0 : doctorQualificationsInput.value.trim()) || "";
+        const doctorCouncilRegInput = document.querySelector("#council-reg");
+        const doctorCouncilReg = (doctorCouncilRegInput === null || doctorCouncilRegInput === void 0 ? void 0 : doctorCouncilRegInput.value.trim()) || "";
+        const doctorPhoneInput = document.querySelector("#phone");
+        const doctorPhone = (doctorPhoneInput === null || doctorPhoneInput === void 0 ? void 0 : doctorPhoneInput.value.trim()) || "";
+        const doctorEmailInput = document.querySelector("#email");
+        const doctorEmail = (doctorEmailInput === null || doctorEmailInput === void 0 ? void 0 : doctorEmailInput.value.trim()) || "";
+        const doctorAddressInput = document.querySelector("#clinic-address");
+        const doctorAddress = (doctorAddressInput === null || doctorAddressInput === void 0 ? void 0 : doctorAddressInput.value.trim()) || "";
         const startTimeInput = document.querySelector("#start-time");
         const startTime = (startTimeInput === null || startTimeInput === void 0 ? void 0 : startTimeInput.value) || "";
         const endTimeInput = document.querySelector("#end-time");
@@ -82,7 +107,7 @@ if (formSubmit) {
                 return record.id === activeSession.id;
             });
             if (targetIndex !== -1 && allRecords[targetIndex]) {
-                allRecords[targetIndex] = Object.assign(Object.assign({}, allRecords[targetIndex]), { name: doctorName, specialty: doctorSpecialty, clinic: doctorClinicName, district: doctorDistrict, fee: Number(doctorFee), startTime: startTime, endTime: endTime, slotDuration: slotDuration });
+                allRecords[targetIndex] = Object.assign(Object.assign({}, allRecords[targetIndex]), { name: doctorName, specialty: doctorSpecialty, clinic: doctorClinicName, district: doctorDistrict, fee: Number(doctorFee), startTime: startTime, endTime: endTime, slotDuration: slotDuration, qualifications: doctorQualifications, councilReg: doctorCouncilReg, phone: doctorPhone, email: doctorEmail, address: doctorAddress });
             }
             safeSetStorage("current_user", Object.assign(Object.assign({}, activeSession), { name: doctorName, clinic: doctorClinicName }));
             safeSetStorage("clinic_doctors", allRecords);
@@ -102,12 +127,23 @@ if (formSubmit) {
                 rating: 0,
                 reviews: [],
                 reviewCount: 0,
+                qualifications: doctorQualifications,
+                councilReg: doctorCouncilReg,
+                phone: doctorPhone,
+                email: doctorEmail,
+                address: doctorAddress,
             };
-            // LocalStorage Persistence: Save Doctor Record & Redirect to Home
+            // LocalStorage Persistence: Save Doctor Record & Auto-Login
             const doctors = safeGetStorage("clinic_doctors", []);
             doctors.push(newDoctor);
             safeSetStorage("clinic_doctors", doctors);
-            window.location.href = "index.html";
+            safeSetStorage("current_user", {
+                role: "doctor",
+                id: newDoctor.id,
+                name: newDoctor.name,
+                clinic: newDoctor.clinic,
+            });
+            window.location.href = "dashboard.html";
         }
     });
 }

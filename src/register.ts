@@ -62,6 +62,27 @@ if (activeSession && activeSession.role === "doctor") {
           ? String(currentRecord.slotDuration)
           : "30";
 
+    const qual = document.querySelector(
+      "#qualifications",
+    ) as HTMLInputElement | null;
+    if (qual) qual.value = currentRecord.qualifications ?? "";
+
+    const reg = document.querySelector(
+      "#council-reg",
+    ) as HTMLInputElement | null;
+    if (reg) reg.value = currentRecord.councilReg ?? "";
+
+    const phone = document.querySelector("#phone") as HTMLInputElement | null;
+    if (phone) phone.value = currentRecord.phone ?? "";
+
+    const mail = document.querySelector("#email") as HTMLInputElement | null;
+    if (mail) mail.value = currentRecord.email ?? "";
+
+    const addr = document.querySelector(
+      "#clinic-address",
+    ) as HTMLTextAreaElement | null;
+    if (addr) addr.value = currentRecord.address ?? "";
+
     const submitBtn = document.querySelector(
       "button[type='submit']",
     ) as HTMLButtonElement | null;
@@ -101,6 +122,33 @@ if (formSubmit) {
       "#consultation-fee",
     ) as HTMLInputElement | null;
     const doctorFee: string = doctorFeeInput?.value.trim() || "0";
+
+    const doctorQualificationsInput = document.querySelector(
+      "#qualifications",
+    ) as HTMLInputElement | null;
+    const doctorQualifications: string =
+      doctorQualificationsInput?.value.trim() || "";
+
+    const doctorCouncilRegInput = document.querySelector(
+      "#council-reg",
+    ) as HTMLInputElement | null;
+    const doctorCouncilReg: string =
+      doctorCouncilRegInput?.value.trim() || "";
+
+    const doctorPhoneInput = document.querySelector(
+      "#phone",
+    ) as HTMLInputElement | null;
+    const doctorPhone: string = doctorPhoneInput?.value.trim() || "";
+
+    const doctorEmailInput = document.querySelector(
+      "#email",
+    ) as HTMLInputElement | null;
+    const doctorEmail: string = doctorEmailInput?.value.trim() || "";
+
+    const doctorAddressInput = document.querySelector(
+      "#clinic-address",
+    ) as HTMLTextAreaElement | null;
+    const doctorAddress: string = doctorAddressInput?.value.trim() || "";
 
     const startTimeInput = document.querySelector(
       "#start-time",
@@ -153,6 +201,11 @@ if (formSubmit) {
           startTime: startTime,
           endTime: endTime,
           slotDuration: slotDuration,
+          qualifications: doctorQualifications,
+          councilReg: doctorCouncilReg,
+          phone: doctorPhone,
+          email: doctorEmail,
+          address: doctorAddress,
         };
       }
 
@@ -178,13 +231,26 @@ if (formSubmit) {
         rating: 0,
         reviews: [],
         reviewCount: 0,
+        qualifications: doctorQualifications,
+        councilReg: doctorCouncilReg,
+        phone: doctorPhone,
+        email: doctorEmail,
+        address: doctorAddress,
       };
 
-      // LocalStorage Persistence: Save Doctor Record & Redirect to Home
+      // LocalStorage Persistence: Save Doctor Record & Auto-Login
       const doctors: Doctor[] = safeGetStorage("clinic_doctors", []);
       doctors.push(newDoctor);
       safeSetStorage("clinic_doctors", doctors);
-      window.location.href = "index.html";
+
+      safeSetStorage("current_user", {
+        role: "doctor",
+        id: newDoctor.id,
+        name: newDoctor.name,
+        clinic: newDoctor.clinic,
+      });
+
+      window.location.href = "dashboard.html";
     }
   });
 }
