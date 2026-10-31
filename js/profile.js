@@ -150,7 +150,7 @@ function renderSlots() {
     for (let i = startTotalMinutes; i < endTotalMinutes; i += slotDuration) {
         const slotTime = formatTime(i);
         const isBooked = savedBookings.some(function (booking) {
-            return (booking.name === (matchedDoctor === null || matchedDoctor === void 0 ? void 0 : matchedDoctor.name) &&
+            return (((booking.doctorId && booking.doctorId === (matchedDoctor === null || matchedDoctor === void 0 ? void 0 : matchedDoctor.id)) || booking.name === (matchedDoctor === null || matchedDoctor === void 0 ? void 0 : matchedDoctor.name)) &&
                 booking.date === selectedDate &&
                 booking.time === slotTime);
         });
@@ -214,6 +214,7 @@ if (appointmentBtn) {
             const clinicAppointments = safeGetStorage("patient_booking", []);
             const newAppointment = {
                 id: Date.now(),
+                doctorId: matchedDoctor === null || matchedDoctor === void 0 ? void 0 : matchedDoctor.id,
                 name: (_a = matchedDoctor === null || matchedDoctor === void 0 ? void 0 : matchedDoctor.name) !== null && _a !== void 0 ? _a : "Doctor",
                 patientName: (_b = activeUser === null || activeUser === void 0 ? void 0 : activeUser.name) !== null && _b !== void 0 ? _b : "Patient",
                 clinic: (_c = matchedDoctor === null || matchedDoctor === void 0 ? void 0 : matchedDoctor.clinic) !== null && _c !== void 0 ? _c : "Clinic",

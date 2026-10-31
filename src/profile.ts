@@ -173,6 +173,7 @@ const eveningSlots = document.querySelector("#evening-slots") as HTMLElement | n
 
 interface SavedBooking {
   id: number;
+  doctorId?: number;
   name: string;
   patientName: string;
   clinic: string;
@@ -191,7 +192,7 @@ function renderSlots(): void {
     const slotTime: string = formatTime(i);
     const isBooked: boolean = savedBookings.some(function (booking: SavedBooking) {
       return (
-        booking.name === matchedDoctor?.name &&
+        ((booking.doctorId && booking.doctorId === matchedDoctor?.id) || booking.name === matchedDoctor?.name) &&
         booking.date === selectedDate &&
         booking.time === slotTime
       );
@@ -257,6 +258,7 @@ if (appointmentBtn) {
 
       const newAppointment: SavedBooking = {
         id: Date.now(),
+        doctorId: matchedDoctor?.id,
         name: matchedDoctor?.name ?? "Doctor",
         patientName: activeUser?.name ?? "Patient",
         clinic: matchedDoctor?.clinic ?? "Clinic",
