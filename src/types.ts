@@ -22,6 +22,7 @@ export interface Doctor {
   phone?: string;
   email?: string;
   address?: string;
+  password?: string;
 }
 
 export interface UserSession {
@@ -41,6 +42,7 @@ export interface PatientRecord {
 
 export interface Booking {
   id: number;
+  doctorId?: number;
   name: string;
   patientName: string;
   clinic: string;
