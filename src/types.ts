@@ -17,6 +17,11 @@ export interface Doctor {
   rating: number;
   reviews: string[];
   reviewCount: number;
+  qualifications?: string;
+  councilReg?: string;
+  phone?: string;
+  email?: string;
+  address?: string;
 }
 
 export interface UserSession {
