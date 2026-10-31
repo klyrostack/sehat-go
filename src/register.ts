@@ -165,6 +165,15 @@ if (formSubmit) {
     ) as HTMLInputElement | null;
     const slotDuration: number = Number(slotDurationInput?.value || 30);
 
+    const passwordInput = document.querySelector(
+      "#password",
+    ) as HTMLInputElement | null;
+    const confirmPasswordInput = document.querySelector(
+      "#confirm-password",
+    ) as HTMLInputElement | null;
+    const doctorPassword: string = passwordInput?.value || "";
+    const doctorConfirmPassword: string = confirmPasswordInput?.value || "";
+
     const errorBox = document.querySelector(
       "#doctor-reg-error",
     ) as HTMLElement | null;
@@ -176,6 +185,34 @@ if (formSubmit) {
       }
       return;
     }
+
+    // Password validation for new registrations
+    const isEditing = activeSession && activeSession.role === "doctor";
+    if (!isEditing) {
+      if (!doctorPassword || doctorPassword.length < 6) {
+        if (errorBox) {
+          errorBox.textContent = "Password must be at least 6 characters!";
+          errorBox.style.display = "block";
+        }
+        return;
+      }
+      if (doctorPassword !== doctorConfirmPassword) {
+        if (errorBox) {
+          errorBox.textContent = "Passwords do not match!";
+          errorBox.style.display = "block";
+        }
+        return;
+      }
+    } else {
+      if (doctorPassword && doctorPassword !== doctorConfirmPassword) {
+        if (errorBox) {
+          errorBox.textContent = "Passwords do not match!";
+          errorBox.style.display = "block";
+        }
+        return;
+      }
+    }
+
     if (errorBox) {
       errorBox.style.display = "none";
     }
@@ -183,7 +220,7 @@ if (formSubmit) {
     // Doctor Data Modeling: Construct Structured Doctor Object
     const allRecords: Doctor[] = safeGetStorage("clinic_doctors", []);
 
-    if (activeSession && activeSession.role === "doctor") {
+    if (isEditing) {
       const targetIndex: number = allRecords.findIndex(function (
         record: Doctor,
       ) {
@@ -191,6 +228,7 @@ if (formSubmit) {
       });
 
       if (targetIndex !== -1 && allRecords[targetIndex]) {
+        const existingPassword = allRecords[targetIndex]?.password;
         allRecords[targetIndex] = {
           ...allRecords[targetIndex],
           name: doctorName,
@@ -206,6 +244,7 @@ if (formSubmit) {
           phone: doctorPhone,
           email: doctorEmail,
           address: doctorAddress,
+          password: doctorPassword || existingPassword,
         };
       }
 
@@ -236,6 +275,7 @@ if (formSubmit) {
         phone: doctorPhone,
         email: doctorEmail,
         address: doctorAddress,
+        password: doctorPassword,
       };
 
       // LocalStorage Persistence: Save Doctor Record & Auto-Login

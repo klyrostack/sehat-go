@@ -61,6 +61,7 @@ if (activeSession && activeSession.role === "doctor") {
 // Doctor Registration Engine: Form Submission Handler
 if (formSubmit) {
     formSubmit.addEventListener("submit", function (event) {
+        var _a;
         event.preventDefault();
         // Form Input Extraction: Doctor Details & Clinic Working Hours
         const doctorNameInput = document.querySelector("#doctor-name");
@@ -89,6 +90,10 @@ if (formSubmit) {
         const endTime = (endTimeInput === null || endTimeInput === void 0 ? void 0 : endTimeInput.value) || "";
         const slotDurationInput = document.querySelector("#slot-duration");
         const slotDuration = Number((slotDurationInput === null || slotDurationInput === void 0 ? void 0 : slotDurationInput.value) || 30);
+        const passwordInput = document.querySelector("#password");
+        const confirmPasswordInput = document.querySelector("#confirm-password");
+        const doctorPassword = (passwordInput === null || passwordInput === void 0 ? void 0 : passwordInput.value) || "";
+        const doctorConfirmPassword = (confirmPasswordInput === null || confirmPasswordInput === void 0 ? void 0 : confirmPasswordInput.value) || "";
         const errorBox = document.querySelector("#doctor-reg-error");
         if (startTime >= endTime) {
             if (errorBox) {
@@ -97,17 +102,45 @@ if (formSubmit) {
             }
             return;
         }
+        // Password validation for new registrations
+        const isEditing = activeSession && activeSession.role === "doctor";
+        if (!isEditing) {
+            if (!doctorPassword || doctorPassword.length < 6) {
+                if (errorBox) {
+                    errorBox.textContent = "Password must be at least 6 characters!";
+                    errorBox.style.display = "block";
+                }
+                return;
+            }
+            if (doctorPassword !== doctorConfirmPassword) {
+                if (errorBox) {
+                    errorBox.textContent = "Passwords do not match!";
+                    errorBox.style.display = "block";
+                }
+                return;
+            }
+        }
+        else {
+            if (doctorPassword && doctorPassword !== doctorConfirmPassword) {
+                if (errorBox) {
+                    errorBox.textContent = "Passwords do not match!";
+                    errorBox.style.display = "block";
+                }
+                return;
+            }
+        }
         if (errorBox) {
             errorBox.style.display = "none";
         }
         // Doctor Data Modeling: Construct Structured Doctor Object
         const allRecords = safeGetStorage("clinic_doctors", []);
-        if (activeSession && activeSession.role === "doctor") {
+        if (isEditing) {
             const targetIndex = allRecords.findIndex(function (record) {
                 return record.id === activeSession.id;
             });
             if (targetIndex !== -1 && allRecords[targetIndex]) {
-                allRecords[targetIndex] = Object.assign(Object.assign({}, allRecords[targetIndex]), { name: doctorName, specialty: doctorSpecialty, clinic: doctorClinicName, district: doctorDistrict, fee: Number(doctorFee), startTime: startTime, endTime: endTime, slotDuration: slotDuration, qualifications: doctorQualifications, councilReg: doctorCouncilReg, phone: doctorPhone, email: doctorEmail, address: doctorAddress });
+                const existingPassword = (_a = allRecords[targetIndex]) === null || _a === void 0 ? void 0 : _a.password;
+                allRecords[targetIndex] = Object.assign(Object.assign({}, allRecords[targetIndex]), { name: doctorName, specialty: doctorSpecialty, clinic: doctorClinicName, district: doctorDistrict, fee: Number(doctorFee), startTime: startTime, endTime: endTime, slotDuration: slotDuration, qualifications: doctorQualifications, councilReg: doctorCouncilReg, phone: doctorPhone, email: doctorEmail, address: doctorAddress, password: doctorPassword || existingPassword });
             }
             safeSetStorage("current_user", Object.assign(Object.assign({}, activeSession), { name: doctorName, clinic: doctorClinicName }));
             safeSetStorage("clinic_doctors", allRecords);
@@ -132,6 +165,7 @@ if (formSubmit) {
                 phone: doctorPhone,
                 email: doctorEmail,
                 address: doctorAddress,
+                password: doctorPassword,
             };
             // LocalStorage Persistence: Save Doctor Record & Auto-Login
             const doctors = safeGetStorage("clinic_doctors", []);
