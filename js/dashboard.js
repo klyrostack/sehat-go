@@ -38,7 +38,7 @@ if (activeSession && activeSession.role === "doctor") {
         dashUserSubtext.textContent = activeSession.clinic;
     const allDoctors = safeGetStorage("clinic_doctors", []);
     const currentDoctor = allDoctors.find(function (doc) {
-        return doc.name.toLowerCase() === activeSession.name.toLowerCase();
+        return (activeSession.id !== undefined && doc.id === activeSession.id) || doc.name.toLowerCase() === activeSession.name.toLowerCase();
     });
     if (!currentDoctor) {
         window.location.href = "login.html";
@@ -70,7 +70,7 @@ if (activeSession && activeSession.role === "doctor") {
     }
     const allBookings = safeGetStorage("patient_booking", []);
     const doctorBookings = allBookings.filter(function (booking) {
-        return booking.name.toLowerCase() === activeSession.name.toLowerCase();
+        return (booking.doctorId !== undefined && activeSession.id !== undefined && booking.doctorId === activeSession.id) || booking.name.toLowerCase() === activeSession.name.toLowerCase();
     });
     const countStat = document.querySelector("#doctor-stat-count");
     if (countStat)

@@ -52,7 +52,7 @@ if (activeSession && activeSession.role === "doctor") {
   const currentDoctor: Doctor | undefined = allDoctors.find(function (
     doc: Doctor,
   ) {
-    return doc.name.toLowerCase() === activeSession.name.toLowerCase();
+    return (activeSession.id !== undefined && doc.id === activeSession.id) || doc.name.toLowerCase() === activeSession.name.toLowerCase();
   });
 
   if (!currentDoctor) {
@@ -103,7 +103,7 @@ if (activeSession && activeSession.role === "doctor") {
   const doctorBookings: Booking[] = allBookings.filter(function (
     booking: Booking,
   ) {
-    return booking.name.toLowerCase() === activeSession.name.toLowerCase();
+    return (booking.doctorId !== undefined && activeSession.id !== undefined && booking.doctorId === activeSession.id) || booking.name.toLowerCase() === activeSession.name.toLowerCase();
   });
 
   const countStat = document.querySelector(
