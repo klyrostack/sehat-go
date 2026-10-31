@@ -18,8 +18,10 @@ if (form) {
         if (isDoctor) {
             const doctorList = safeGetStorage("clinic_doctors", []);
             const matchedDoctor = doctorList.find(function (doctor) {
-                var _a;
-                return (((_a = doctor.name) === null || _a === void 0 ? void 0 : _a.toLowerCase()) || "") === userName.toLowerCase();
+                var _a, _b;
+                const matchesIdentity = (((_a = doctor.name) === null || _a === void 0 ? void 0 : _a.toLowerCase()) || '') === userName.toLowerCase() || (((_b = doctor.email) === null || _b === void 0 ? void 0 : _b.toLowerCase()) || '') === userName.toLowerCase();
+                const matchesPassword = !doctor.password || doctor.password === userPassword;
+                return matchesIdentity && matchesPassword;
             });
             if (matchedDoctor) {
                 const sessionUser = {
@@ -34,7 +36,7 @@ if (form) {
             else {
                 if (loginError) {
                     loginError.textContent =
-                        "Doctor account not found! Check your name or register first.";
+                        "Invalid doctor name/email or incorrect password!";
                     loginError.style.display = "block";
                 }
             }

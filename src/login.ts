@@ -37,7 +37,9 @@ if (form) {
       const matchedDoctor: Doctor | undefined = doctorList.find(function (
         doctor: Doctor,
       ) {
-        return (doctor.name?.toLowerCase() || "") === userName.toLowerCase();
+        const matchesIdentity = (doctor.name?.toLowerCase() || '') === userName.toLowerCase() || (doctor.email?.toLowerCase() || '') === userName.toLowerCase();
+        const matchesPassword = !doctor.password || doctor.password === userPassword;
+        return matchesIdentity && matchesPassword;
       });
 
       if (matchedDoctor) {
@@ -52,7 +54,7 @@ if (form) {
       } else {
         if (loginError) {
           loginError.textContent =
-            "Doctor account not found! Check your name or register first.";
+            "Invalid doctor name/email or incorrect password!";
           loginError.style.display = "block";
         }
       }
